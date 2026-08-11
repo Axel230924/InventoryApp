@@ -8,23 +8,126 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/txtInventory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="-50dp"
+        android:fontFamily="@font/roboto"
+        android:text="InventoryApp"
+        android:textColor="#022D36"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/imgLogo" />
+
+    <TextView
+        android:id="@+id/txtControl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-22dp"
+        android:fontFamily="@font/roboto"
+        android:text="Control de Inventario"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgLogo" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txtILayoutUsuario"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        app:hintTextAppearance="@style/HintGrande"
+        android:hint="Usuario"
+        android:textColorHint="#000000"
+        app:boxStrokeColor="#000000"
+        app:boxStrokeWidth="1dp"
+        app:boxStrokeWidthFocused="2dp"
+        app:expandedHintEnabled="false"
+        app:hintTextColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgLogo">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/TIEUsuario"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/roboto"
+            android:textColor="#000000"
+            android:textColorLink="#000000"
+            android:textSize="16sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txtILayoutContraseña"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:hint="Contraseña"
+        android:textColorHint="#000000"
+        app:hintTextAppearance="@style/HintGrande"
+        app:boxStrokeColor="#000000"
+        app:boxStrokeWidth="1dp"
+        app:boxStrokeWidthFocused="2dp"
+        app:expandedHintEnabled="false"
+        app:hintTextColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtILayoutUsuario">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/TIEContraseña"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/roboto"
+            android:textColor="#000000"
+            android:textColorLink="#000000"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="93dp"
+        android:layout_marginTop="83dp"
+        android:layout_marginEnd="93dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo_inventoryapp_preview_rev_1" />
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="BTN Prueba"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
+        android:id="@+id/btniniciosesion"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="27dp"
+        android:layout_marginEnd="55dp"
+        android:backgroundTint="#022D36"
+        android:text="Iniciar Sesión"
+        android:textColor="#FFFFFF"
+        android:textColorLink="#0F0E0E"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/txtILayoutContraseña" />
+
+    <TextView
+        android:id="@+id/txtolvido"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="125dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="125dp"
+        android:fontFamily="@font/roboto"
+        android:text="¿Olvidaste la contraseña?"
+        android:textColor="#5005FF"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btniniciosesion" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
