@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">InventoryApp</string>
+    <string name="InventoryApp">txtInventory</string>
+    <string name="Imagen_logo_de_empresa">ImagenLogoEmpresa</string>
+    <string name="inventoryapp">InventoryApp</string>
+    <string name="logo_empresa">Logo_Empresa</string>
 </resources>
