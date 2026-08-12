@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="dark_navy">#022D36</color>
+    <color name="dark_navy_bg">#1E1E1E</color>
+    <color name="blue_accent">#5005FF</color>
+    <color name="gray_text">#757575</color>
 </resources>
