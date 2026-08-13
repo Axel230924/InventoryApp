@@ -4,4 +4,28 @@
     <string name="Imagen_logo_de_empresa">ImagenLogoEmpresa</string>
     <string name="inventoryapp">InventoryApp</string>
     <string name="logo_empresa">Logo_Empresa</string>
+
+
+
+
+    <string name="abrir_menu">Abrir menú</string>
+    <string name="nuevo_producto">Nuevo producto</string>
+
+    <string name="nombre_del_producto">Nombre del producto</string>
+    <string name="ej_teclado_mecanico">Ej. Teclado Mecanico</string>
+
+    <string name="codigo">Código</string>
+    <string name="ej_100000f">Ej. 100000F</string>
+
+    <string name="categoria">Categoría</string>
+    <string name="seleccione_la_categoria">Seleccione la categoría</string>
+
+    <string name="precio">Precio</string>
+    <string name="cero_punto_cero_cero">0.00</string>
+
+    <string name="cantidad">Cantidad</string>
+    <string name="cero">0</string>
+
+    <string name="guardar_producto">GUARDAR PRODUCTO</string>
+
 </resources>
