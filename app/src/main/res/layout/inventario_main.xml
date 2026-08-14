@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Contenedor principal de toda la pantalla -->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F7F7F7"
+    tools:context=".MainActivity">
+
+    <!-- Aqui van los elementos de la pantalla -->
+    <!-- Barra superior de la pantalla inventario -->
+    <LinearLayout
+        android:id="@+id/barraSuperior"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#022D36"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Botón de las tres líneas del menú -->
+        <TextView
+            android:id="@+id/btnMenu"
+            android:layout_width="64dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="☰"
+            android:textSize="28sp"
+            android:textColor="#FFFFFF"/>
+
+        <!-- Título de la pantalla -->
+        <TextView
+            android:id="@+id/tvTitulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Inventario"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"/>
+
+    </LinearLayout>
+
+    <!-- Tarjeta 1: muestra la cantidad total de productos registrados actualmente en el inventario -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardTotalProductos"
+        android:layout_width="0dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="4dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        app:layout_constraintTop_toBottomOf="@id/barraSuperior"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/cardStockTotal"
+        app:cardBackgroundColor="#FFFFFF">
+
+    <!-- Contenedor interno de la primera tarjeta -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="8dp">
+
+            <!-- Texto descriptivo de la tarjeta -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total de productos"
+                android:textSize="13sp"
+                android:gravity="center"
+                android:textColor="#000000"/>
+
+            <!-- Cantidad total de productos -->
+            <TextView
+                android:id="@+id/tvTotalProductos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="128"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#241571"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!--TARJETA 2:Muestra la cantidad total de unidades disponibles en el inventario.-->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardStockTotal"
+        android:layout_width="0dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="4dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        app:layout_constraintTop_toBottomOf="@id/barraSuperior"
+        app:layout_constraintStart_toEndOf="@id/cardTotalProductos"
+        app:layout_constraintEnd_toStartOf="@id/cardValorInventario"
+        app:cardBackgroundColor="#FFFFFF">
+
+        <!--Contenedor interno de la segunda tarjeta. -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="8dp">
+
+            <!-- Texto descriptivo de la tarjeta -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Stock total"
+                android:textSize="13sp"
+                android:gravity="center"
+                android:textColor="#000000"/>
+
+            <!-- Cantidad total de unidades disponibles -->
+            <TextView
+                android:id="@+id/tvStockTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="256"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#241571"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- TARJETA 3:Muestra el valor monetario total de los productos registrados actualmente en el inventario. -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardValorInventario"
+        android:layout_width="0dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        app:layout_constraintTop_toBottomOf="@id/barraSuperior"
+        app:layout_constraintStart_toEndOf="@id/cardStockTotal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:cardBackgroundColor="#FFFFFF">
+
+        <!-- Contenedor interno de la tarjeta. Organiza verticalmente el nombre y el valor -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="8dp">
+
+            <!-- Texto descriptivo de la tarjeta -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Valor inventario"
+                android:textSize="13sp"
+                android:gravity="center"
+                android:textColor="#000000"/>
+
+            <!-- Valor monetario total del inventario -->
+            <TextView
+                android:id="@+id/tvValorInventario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$12,450.00"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#241571"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!--TÍTULO DE LA SECCIÓN:Identifica la lista de movimientos recientes realizados en el inventario.-->
+    <TextView
+        android:id="@+id/tvUltimosMovimientos"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:text="Últimos movimientos"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/cardTotalProductos"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="#000000"/>
+
+    <!--PRIMER MOVIMIENTO:Representa una entrada de producto al inventario. -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardMovimiento1"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="2dp"
+        app:layout_constraintTop_toBottomOf="@id/tvUltimosMovimientos"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:cardBackgroundColor="#FFFFFF">
+
+        <!-- Contenedor del movimiento -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="12dp">
+
+            <!-- Información del movimiento -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <!-- Nombre del producto -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Entrada: Laptop Dell"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="#000000"/>
+
+                <!-- Tipo de movimiento -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20/05/2024"
+                    android:textSize="12sp"
+                    android:textColor="#000000"/>
+
+            </LinearLayout>
+
+            <!-- Cantidad del movimiento -->
+            <TextView
+                android:id="@+id/tvCantidadMovimiento1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+5 unidades"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#006414"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- SEGUNDO MOVIMIENTO: Representa una salida de productos del inventario.-->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardMovimiento2"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="2dp"
+        app:layout_constraintTop_toBottomOf="@id/cardMovimiento1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:cardBackgroundColor="#FFFFFF">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="12dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <!-- Nombre del producto -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Salida: Laptop Dell"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="#000000"/>
+
+                <!-- Información del movimiento -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20/05/2024"
+                    android:textSize="12sp"
+                    android:textColor="#000000"/>
+
+            </LinearLayout>
+
+            <!-- Cantidad retirada -->
+            <TextView
+                android:id="@+id/tvCantidadMovimiento2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-3 unidades"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#ff0000"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- TERCER MOVIMIENTO: Representa una entrada de productos del inventario.-->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardMovimiento3"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="2dp"
+        app:layout_constraintTop_toBottomOf="@id/cardMovimiento2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:cardBackgroundColor="#FFFFFF">
+
+        <!-- Contenedor interno del movimiento -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="12dp">
+
+            <!-- Información del producto -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <!-- Nombre del producto -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Entrada: Laptop Dell"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="#000000"/>
+
+                <!-- Fecha y tipo de movimiento -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20/05/2024"
+                    android:textSize="12sp"
+                    android:textColor="#000000"/>
+
+            </LinearLayout>
+
+            <!-- Cantidad ingresada -->
+            <TextView
+                android:id="@+id/tvCantidadMovimiento3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+5 unidades"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#006414"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- Cuarto MOVIMIENTO: Representa una entrada de productos del inventario.-->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardMovimiento4"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="2dp"
+        app:layout_constraintTop_toBottomOf="@id/cardMovimiento3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:cardBackgroundColor="#FFFFFF">
+
+    <!-- Contenedor interno del movimiento -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="12dp">
+
+    <!-- Información del producto -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+    <!-- Nombre del producto -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Entrada: Laptop Dell Inspiro 15"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="#000000"/>
+
+    <!-- Tipo y fecha del movimiento -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="20/05/2024"
+        android:textSize="12sp"
+        android:textColor="#000000"/>
+
+    </LinearLayout>
+
+    <!-- Cantidad ingresada -->
+    <TextView
+        android:id="@+id/tvCantidadMovimiento4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+5 unidades"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="#006414"/>
+    </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- QUINTO MOVIMIENTO: Representa una entrada de productos del inventario.-->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardMovimiento5"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="2dp"
+        app:layout_constraintTop_toBottomOf="@id/cardMovimiento4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:cardBackgroundColor="#FFFFFF">
+
+        <!-- Contenedor interno del movimiento -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="12dp">
+
+        <!-- Información del producto -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- Nombre del producto -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Entrada. Laptop Dell"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#000000"/>
+
+            <!-- Tipo y fecha del movimiento -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 20/05/2024"
+                android:textSize="12sp"
+                android:textColor="#000000"/>
+
+        </LinearLayout>
+
+            <!-- Cantidad ingresada -->
+            <TextView
+                android:id="@+id/tvCantidadMovimiento5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+5 unidades"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#006414"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- Botón flotante para agregar un nuevo producto -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnAgregarProducto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:contentDescription="Agregar producto"
+        android:src="@android:drawable/ic_input_add"
+        app:backgroundTint="#022D36"
+        app:tint="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
