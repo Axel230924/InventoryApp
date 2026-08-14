@@ -1,6 +1,6 @@
 package com.example.inventoryapp
 
-import android.content.Intent // debemos importar la función Intent.
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
