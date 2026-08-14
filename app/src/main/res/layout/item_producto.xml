@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardProducto"
+        android:layout_width="match_parent"
+        android:layout_height="123dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="12dp"
+
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="6dp"
+        app:strokeWidth="0dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp">
+
+            <!-- IMAGEN -->
+            <ImageView
+                android:id="@+id/imgProducto"
+                android:layout_width="83dp"
+                android:layout_height="83dp"
+                android:scaleType="centerCrop"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <!-- NOMBRE -->
+            <TextView
+                android:id="@+id/txtNombreProducto"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Laptop HP"
+                android:textSize="16sp"
+                android:textStyle="bold"
+
+                android:layout_marginStart="12dp"
+
+                app:layout_constraintStart_toEndOf="@id/imgProducto"
+
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- CÓDIGO -->
+
+            <!-- STOCK -->
+
+            <!-- PRECIO -->
+
+            <TextView
+                android:id="@+id/txtCodigo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="8dp"
+
+                android:text="PROD001"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@id/txtStock"
+                app:layout_constraintTop_toBottomOf="@id/txtStock" />
+
+            <TextView
+                android:id="@+id/txtStock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Stock: 8"
+
+                android:textSize="13sp"
+                app:layout_constraintStart_toStartOf="@id/txtNombreProducto"
+                app:layout_constraintTop_toBottomOf="@id/txtNombreProducto" />
+
+            <TextView
+                android:id="@+id/txtPrecio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$300.00"
+                android:textSize="17sp"
+                android:textStyle="bold"
+
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="2dp"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>
