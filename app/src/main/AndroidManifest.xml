@@ -26,6 +26,11 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
+            android:name=".Configuracion"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".Reportes"
             android:name=".moduloProducto"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />

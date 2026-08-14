@@ -10,7 +10,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/dark_navy"
         app:titleTextColor="@color/white"
-        app:title="Reportes" />
+        app:title="Configuración" />
 
     <ScrollView
         android:id="@+id/scrollView2"
