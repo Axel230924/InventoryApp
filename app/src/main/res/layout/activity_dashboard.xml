@@ -3,81 +3,68 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:openDrawer="start"
+    android:id="@+id/DrawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:textAlignment="center"
-    app:scrimColor="#80000000">
+    tools:openDrawer="start">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainConstraint"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appbar"
-            android:layout_width="match_parent"
-            android:layout_height="100dp">
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:background="#022D36"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            <ImageView
+                android:id="@+id/imgmenu"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                app:srcCompat="@drawable/icons8_men__48" />
 
-                app:toolbarId="@+id/toolbar">
+            <TextView
+                android:id="@+id/txtdashboard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Dashboard"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-                <LinearLayout
-                    android:id="@+id/linearLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:background="#022D36"
-                    android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/imgnotificacion"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                app:srcCompat="@drawable/icons8_recordatorios_de_citas_50" />
 
-                    <ImageView
-                        android:id="@+id/imgmenu"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        app:srcCompat="@drawable/icons8_men__48" />
+        </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/txtdashboard"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_horizontal|center_vertical"
-                        android:layout_weight="1"
-                        android:text="Dashboard"
-                        android:textAlignment="center"
-                        android:textColor="#FFFFFF"
-                        android:textSize="22sp" />
-
-                    <ImageView
-                        android:id="@+id/imgnotificacion"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        app:srcCompat="@drawable/icons8_recordatorios_de_citas_50" />
-
-                </LinearLayout>
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-        </com.google.android.material.appbar.AppBarLayout>
-
+        <!-- CONTENIDO DESPLAZABLE RESPONSIVO -->
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nestedScrollView"
-            android:layout_width="match_parent"
-
-
-            android:layout_height="630dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:fillViewport="true"
-            app:layout_anchor="@+id/nestedScrollView"
-            app:layout_anchorGravity="center"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingBottom="24dp">
 
                 <TextView
                     android:id="@+id/txtbienvenida"
@@ -98,47 +85,51 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="44dp"
-                    android:layout_marginEnd="270dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="290dp"
                     android:fontFamily="@font/roboto"
                     android:text="Administrador"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/txtbienvenida" />
+                    app:layout_constraintTop_toBottomOf="@id/txtbienvenida" />
 
                 <androidx.gridlayout.widget.GridLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="410dp"
-                    android:padding="8dp"
+                    android:id="@+id/gridLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="16dp"
+                    android:paddingStart="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    app:alignmentMode="alignMargins"
                     app:columnCount="2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtadmin"
-                    app:rowCount="2"
-                    app:useDefaultMargins="true">
+                    app:useDefaultMargins="false">
 
+                    <!-- CARD 1: PRODUCTOS -->
                     <androidx.cardview.widget.CardView
                         android:id="@+id/CardViewProductos"
-                        android:layout_width="130dp"
-                        android:layout_height="170dp"
-                        android:layout_marginStart="40dp"
-                        android:layout_marginBottom="40dp"
+                        android:layout_width="140dp"
+                        android:layout_height="160dp"
                         app:cardCornerRadius="14dp"
                         app:cardElevation="4dp"
-                        app:layout_gravity="center_horizontal">
+                        app:layout_gravity="center">
 
                         <LinearLayout
-                            android:id="@+id/LinearLayoutProducto"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="vertical">
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="8dp">
 
                             <ImageView
-                                android:id="@+id/imgProductosCV"
+                                android:id="@+id/imgLogoCV"
                                 android:layout_width="match_parent"
-                                android:layout_height="90dp"
+                                android:layout_height="70dp"
                                 app:srcCompat="@drawable/logo_inventoryapp_preview_rev_1" />
 
                             <TextView
@@ -149,7 +140,7 @@
                                 android:text="Productos"
                                 android:textAlignment="center"
                                 android:textColor="#000000"
-                                android:textSize="17sp" />
+                                android:textSize="15sp" />
 
                             <TextView
                                 android:id="@+id/txtcntCV"
@@ -159,153 +150,156 @@
                                 android:text="128"
                                 android:textAlignment="center"
                                 android:textColor="#0f1266"
-                                android:textSize="16sp" />
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/txtver"
+                                android:id="@+id/txtVerCV"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto"
                                 android:text="Ver Productos"
                                 android:textAlignment="center"
-                                android:textSize="14sp" />
-
+                                android:textSize="12sp" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/CardViewInventario"
-                        android:layout_width="130dp"
-                        android:layout_height="170dp"
-                        android:layout_marginStart="40dp"
-                        app:cardBackgroundColor="#FFFFFF"
+                        android:layout_width="140dp"
+                        android:layout_height="160dp"
                         app:cardCornerRadius="12dp"
-                        app:cardElevation="4dp">
+                        app:cardElevation="4dp"
+                        app:layout_gravity="center">
 
                         <LinearLayout
-                            android:id="@+id/LinearLayoutInventario"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="vertical">
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="8dp">
 
                             <ImageView
-                                android:id="@+id/imgReporte"
+                                android:id="@+id/imgInventarioCV"
                                 android:layout_width="match_parent"
-                                android:layout_height="90dp"
+                                android:layout_height="70dp"
                                 app:srcCompat="@drawable/icons8_lista_80" />
 
                             <TextView
-                                android:id="@+id/txtInventario"
+                                android:id="@+id/txtInventarioCV"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto"
                                 android:text="Inventario"
                                 android:textAlignment="center"
                                 android:textColor="#000000"
-                                android:textSize="17sp" />
+                                android:textSize="15sp" />
 
                             <TextView
-                                android:id="@+id/txtcnti"
+                                android:id="@+id/txtCntICV"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto"
                                 android:text="256"
                                 android:textAlignment="center"
                                 android:textColor="#0f1266"
-                                android:textSize="16sp" />
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/txtverex"
+                                android:id="@+id/txtVerICV"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto"
                                 android:text="Ver existencia"
                                 android:textAlignment="center"
-                                android:textSize="14sp" />
+                                android:textSize="12sp" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/CardViewReportes"
-                        android:layout_width="130dp"
-                        android:layout_height="170dp"
-                        android:layout_marginStart="40dp"
-                        app:cardBackgroundColor="#FFFFFF"
+                        android:layout_width="140dp"
+                        android:layout_height="160dp"
+                        android:layout_marginTop="40dp"
                         app:cardCornerRadius="12dp"
-                        app:cardElevation="4dp">
+                        app:cardElevation="4dp"
+                        app:layout_gravity="center">
 
                         <LinearLayout
-                            android:id="@+id/LinearLayoutReportesCV"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="vertical">
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="8dp">
 
                             <ImageView
-                                android:id="@+id/imgReportes"
+                                android:id="@+id/imgReportesCV"
                                 android:layout_width="match_parent"
-                                android:layout_height="90dp"
+                                android:layout_height="70dp"
                                 app:srcCompat="@drawable/grafico_de_histograma" />
 
                             <TextView
-                                android:id="@+id/txtReportes"
+                                android:id="@+id/txtReportesCV"
                                 android:layout_width="match_parent"
-                                android:layout_height="40dp"
+                                android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto"
                                 android:text="Reportes"
                                 android:textAlignment="center"
                                 android:textColor="#000000"
-                                android:textSize="17sp" />
+                                android:textSize="15sp" />
 
                             <TextView
-                                android:id="@+id/txtverr"
+                                android:id="@+id/txtVerRCV"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto"
                                 android:text="Ver Reportes"
                                 android:textAlignment="center"
-                                android:textSize="14sp" />
+                                android:textSize="12sp" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/CardViewConfiguracion"
-                        android:layout_width="130dp"
-                        android:layout_height="170dp"
-                        android:layout_marginStart="40dp"
-                        app:cardBackgroundColor="#FFFFFF"
+                        android:layout_width="140dp"
+                        android:layout_height="160dp"
+                        android:layout_marginTop="40dp"
                         app:cardCornerRadius="12dp"
-                        app:cardElevation="4dp">
+                        app:cardElevation="4dp"
+                        app:layout_gravity="center">
 
                         <LinearLayout
-                            android:id="@+id/LinearLayoutConfiguracion"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="vertical">
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="8dp">
 
                             <ImageView
-                                android:id="@+id/imgConfiguracion"
+                                android:id="@+id/imgConfiguracionCV"
                                 android:layout_width="match_parent"
-                                android:layout_height="90dp"
+                                android:layout_height="70dp"
                                 app:srcCompat="@drawable/ajustes" />
 
                             <TextView
-                                android:id="@+id/txtConfiguracion"
+                                android:id="@+id/txtConfiguracionCV"
                                 android:layout_width="match_parent"
-                                android:layout_height="40dp"
+                                android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto"
                                 android:text="Configuración"
                                 android:textAlignment="center"
                                 android:textColor="#000000"
-                                android:textSize="17sp" />
+                                android:textSize="15sp" />
 
                             <TextView
-                                android:id="@+id/txtvera"
+                                android:id="@+id/txtVerCCV"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto"
                                 android:text="Ver Ajustes"
                                 android:textAlignment="center"
-                                android:textSize="14sp" />
+                                android:textSize="12sp" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
@@ -313,28 +307,34 @@
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/FloatingActionButtonAgregar"
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
-                    android:layout_marginBottom="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="331dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginBottom="10dp"
                     android:clickable="true"
                     android:contentDescription="Boton para agregar"
                     android:focusable="true"
                     app:backgroundTint="#022D36"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.91"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:srcCompat="@android:drawable/ic_input_add" />
+                    app:layout_constraintTop_toBottomOf="@+id/gridLayout"
+                    app:srcCompat="@android:drawable/ic_input_add"
+                    app:tint="#FFFFFF" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
+        android:id="@+id/NavigationView"
         android:layout_width="280dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:fitsSystemWindows="false"
         app:elevation="16dp">
 
         <LinearLayout
@@ -344,66 +344,57 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:background="#022336">
+                android:layout_height="180dp"
+                android:background="#022336"
+                android:padding="16dp">
 
                 <androidx.cardview.widget.CardView
-                    android:layout_width="120dp"
-                    android:layout_height="100dp"
-                    android:layout_marginTop="20dp"
+                    android:id="@+id/cardLogo"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     app:cardCornerRadius="12dp"
                     app:cardElevation="6dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.3"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
                         android:id="@+id/imglogoNV"
                         android:layout_width="match_parent"
-                        android:layout_height="100dp"
+                        android:layout_height="match_parent"
                         android:background="#FFFFFF"
-                        android:elevation="16dp"
                         app:srcCompat="@drawable/logo_inventoryapp_preview_rev_1" />
                 </androidx.cardview.widget.CardView>
 
                 <TextView
                     android:id="@+id/txtInv"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="55dp"
-                    android:layout_marginTop="130dp"
+                    android:layout_marginTop="12dp"
                     android:fontFamily="@font/roboto"
                     android:text="InventoryApp"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp"
-                    app:layout_constraintEnd_toStartOf="parent"
-                    app:layout_constraintHorizontal_bias="0.51"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@id/cardLogo" />
 
                 <TextView
                     android:id="@+id/txtControlinv"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="45dp"
-                    android:layout_marginTop="30dp"
                     android:fontFamily="@font/roboto"
                     android:text="Control de Inventario"
                     android:textColor="#FFFFFF"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toStartOf="parent"
+                    android:textSize="13sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/txtInv" />
+                    app:layout_constraintTop_toBottomOf="@id/txtInv" />
 
                 <ImageView
                     android:id="@+id/imgMenuNV"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_marginEnd="30dp"
-                    android:layout_marginBottom="20dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/icons8_men__48" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -411,162 +402,129 @@
             <LinearLayout
                 android:id="@+id/LinearLayoutInicioNV"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="horizontal">
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="16dp">
 
                 <ImageView
-                    android:id="@+id/imginicio"
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     app:srcCompat="@drawable/boton_de_inicio" />
 
                 <TextView
-                    android:id="@+id/txtinicio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="-25dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
+                    android:layout_marginStart="20dp"
                     android:text="Inicio"
                     android:textColor="#000000"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/LinearLayoutProductoNV"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="horizontal">
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="16dp">
 
                 <ImageView
-                    android:id="@+id/imgPoductoNV"
-                    android:layout_width="30dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     app:srcCompat="@drawable/logo_inventoryapp_preview_rev_1" />
 
                 <TextView
-                    android:id="@+id/txtProducto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="-25dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
+                    android:layout_marginStart="20dp"
                     android:text="Producto"
                     android:textColor="#000000"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
-
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/LinearLayoutInventarioNV"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="horizontal">
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="16dp">
 
                 <ImageView
-                    android:id="@+id/imgInventarioCV"
-                    android:layout_width="30dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     app:srcCompat="@drawable/icons8_lista_80" />
 
                 <TextView
-                    android:id="@+id/txtInventarioCV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="-25dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
+                    android:layout_marginStart="20dp"
                     android:text="Inventario"
                     android:textColor="#000000"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/LinearLayoutReportesNV"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="horizontal">
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="16dp">
 
                 <ImageView
-                    android:id="@+id/imgReportesCV"
-                    android:layout_width="30dp"
-                    android:layout_height="45dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     app:srcCompat="@drawable/grafico_de_histograma" />
 
                 <TextView
-                    android:id="@+id/txtReportesCV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="-25dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
+                    android:layout_marginStart="20dp"
                     android:text="Reportes"
                     android:textColor="#000000"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/LinearLayoutConfiguracionNV"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="horizontal">
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="16dp">
 
                 <ImageView
-                    android:id="@+id/imgConfiguracionCV"
-                    android:layout_width="65dp"
-                    android:layout_height="45dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     app:srcCompat="@drawable/ajustes" />
 
                 <TextView
-                    android:id="@+id/txtConfiguracionCV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="-25dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
+                    android:layout_marginStart="20dp"
                     android:text="Configuración"
                     android:textColor="#000000"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
-
             </LinearLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
-                <Button
-                    android:id="@+id/button2"
-                    android:layout_width="220dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="50dp"
-                    android:backgroundTint="#8B0000"
-                    android:text="Cerrar sesion"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <Button
+                android:id="@+id/btncerrars"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:backgroundTint="#8B0000"
+                android:text="Cerrar sesion"
+                android:textColor="#FFFFFF" />
 
         </LinearLayout>
 
     </com.google.android.material.navigation.NavigationView>
-
 
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -21,12 +21,12 @@ class MainActivity : AppCompatActivity() {
         }
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
-        val iniciarLogin = findViewById<Button>(R.id.btniniciosesion)
+        val btnInicioS = findViewById<Button>(R.id.btniniciosesion) // Selecciona el id del botón
 
-        iniciarLogin.setOnClickListener{
-            val inet = Intent(this, moduloProducto::class.java)
-
-            startActivity(inet)
+        btnInicioS.setOnClickListener { // Esto indica un evento, al dar click se ejecutará lo siguiente
+            val intent = Intent(this, Dashboard::class.java) // Selecciona la actividad.
+            startActivity(intent) // Indica que se va a ejecutar.
+            finish() // Destruye la pantalla de login para que no pueda retroceder a ella.
         }
     }
 }
