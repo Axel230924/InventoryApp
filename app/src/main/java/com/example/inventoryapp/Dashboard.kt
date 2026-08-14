@@ -28,48 +28,72 @@ class Dashboard : AppCompatActivity() {
         val mainConstraint = findViewById<ConstraintLayout>(R.id.mainConstraint)
         val linearLayout = findViewById<LinearLayout>(R.id.linearLayout)
 
-        // RESPONSIVIDAD GENERAL (Dashboard + Menú Lateral)
+        // Responsividad del Dashboard y del menú lateral
         ViewCompat.setOnApplyWindowInsetsListener(drawerLayout) { _, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
 
-            // Dashboard: Ajuste de barra azul superior e inferior
             linearLayout.setPadding(
                 linearLayout.paddingLeft,
                 systemBars.top,
                 linearLayout.paddingRight,
                 linearLayout.paddingBottom
             )
+
             mainConstraint.setPadding(0, 0, 0, systemBars.bottom)
 
-            // NavigationView: Empuja el menú hacia abajo de la hora y arriba de los botones
             navViews.setPadding(
                 0,
-                systemBars.top,    // Evita que el logo quede debajo de la hora
+                systemBars.top,
                 0,
-                systemBars.bottom  // Evita que el botón 'Cerrar sesión' quede bajo los botones/gestos
+                systemBars.bottom
             )
 
             insets
         }
 
-        // Eventos del Menú Lateral
+        // Botón abrir menú
         val btnMenu = findViewById<ImageView>(R.id.imgmenu)
         btnMenu.setOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
         }
 
-        val btnmenuvolver = findViewById<ImageView>(R.id.imgMenuNV)
-        btnmenuvolver.setOnClickListener {
+        // Botón cerrar menú
+        val btnMenuVolver = findViewById<ImageView>(R.id.imgMenuNV)
+        btnMenuVolver.setOnClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)
         }
 
-        val btncerarsesion = findViewById<Button>(R.id.btncerrars)
-        btncerarsesion?.setOnClickListener {
+        // Cerrar sesión
+        val btnCerrarSesion = findViewById<Button>(R.id.btncerrars)
+        btnCerrarSesion.setOnClickListener {
             cerrarSesion()
+        }
+
+        // ================= MENÚ LATERAL =================
+
+        // Inicio
+        val menuInicio = findViewById<LinearLayout>(R.id.LinearLayoutInicioNV)
+        menuInicio.setOnClickListener {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        }
+
+        // Productos
+        val menuProducto = findViewById<LinearLayout>(R.id.LinearLayoutProductoNV)
+        menuProducto.setOnClickListener {
+            startActivity(Intent(this, moduloProducto::class.java))
+            drawerLayout.closeDrawer(GravityCompat.START)
+        }
+
+        // Inventario
+        val menuInventario = findViewById<LinearLayout>(R.id.LinearLayoutInventarioNV)
+        menuInventario.setOnClickListener {
+            startActivity(Intent(this, InventarioActivity::class.java))
+            drawerLayout.closeDrawer(GravityCompat.START)
         }
     }
 
-    private fun cerrarSesion() { // funcion de cerrar sesion
+    // Función para cerrar sesión
+    private fun cerrarSesion() {
         val intent = Intent(this, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
