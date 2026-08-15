@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.content.Intent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
@@ -32,16 +33,10 @@ class InventarioActivity : AppCompatActivity() {
         }
 
         // Busca la tarjeta de Laptop Dell Inspiro 15.
-        val cardMovimiento4 = findViewById<androidx.cardview.widget.CardView>(
-            R.id.cardMovimiento4
-        )
-
-        // Detecta cuando el usuario toca la tarjeta.
-        cardMovimiento4.setOnClickListener {
-
+        val cardMov4 = findViewById<CardView>(R.id.cardMovimiento4)
+        cardMov4.setOnClickListener { // Detecta cuando el usuario toca la tarjeta.
             // Crea una navegación hacia la pantalla Detalle del producto.
             val intent = Intent(this, DetalleProductoActivity::class.java)
-
             // Ejecuta la navegación.
             startActivity(intent)
         }

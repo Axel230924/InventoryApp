@@ -1,5 +1,6 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/CoordinatorLayoutC"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -9,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/dark_navy"
-        app:titleTextColor="@color/white"
-        app:title="Configuración" />
+        app:title="Configuración"
+        app:titleTextColor="@color/white" />
 
     <ScrollView
         android:id="@+id/scrollView2"

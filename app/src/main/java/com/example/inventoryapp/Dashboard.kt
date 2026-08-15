@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
@@ -71,23 +72,59 @@ class Dashboard : AppCompatActivity() {
 
         // ================= MENÚ LATERAL =================
 
-        // Inicio
-        val menuInicio = findViewById<LinearLayout>(R.id.LinearLayoutInicioNV)
-        menuInicio.setOnClickListener {
+        val cvProducto = findViewById<CardView>(R.id.CardViewProductos)
+        cvProducto.setOnClickListener {
+            val intent = Intent(this, moduloProducto::class.java)
+            startActivity(intent)
             drawerLayout.closeDrawer(GravityCompat.START)
         }
 
-        // Productos
-        val menuProducto = findViewById<LinearLayout>(R.id.LinearLayoutProductoNV)
-        menuProducto.setOnClickListener {
-            startActivity(Intent(this, moduloProducto::class.java))
+        val opProducto = findViewById<LinearLayout>(R.id.LinearLayoutProductoNV)
+        opProducto.setOnClickListener {
+            val intent = Intent(this, moduloProducto::class.java)
+            startActivity(intent)
             drawerLayout.closeDrawer(GravityCompat.START)
         }
 
-        // Inventario
-        val menuInventario = findViewById<LinearLayout>(R.id.LinearLayoutInventarioNV)
-        menuInventario.setOnClickListener {
-            startActivity(Intent(this, InventarioActivity::class.java))
+        val cvReporte = findViewById<CardView>(R.id.CardViewReportes)
+        cvReporte.setOnClickListener {
+            val intent = Intent(this, Reportes::class.java)
+            startActivity(intent)
+            drawerLayout.closeDrawer(GravityCompat.START)
+        }
+
+        val opReporte = findViewById<LinearLayout>(R.id.LinearLayoutReportesNV)
+        opReporte.setOnClickListener {
+            val intent = Intent(this, Reportes::class.java)
+            startActivity(intent)
+            drawerLayout.closeDrawer(GravityCompat.START)
+        }
+
+        val cvInventario = findViewById<CardView>(R.id.CardViewInventario)
+        cvInventario.setOnClickListener {
+            val intent = Intent(this, InventarioActivity::class.java)
+            startActivity(intent)
+            drawerLayout.closeDrawer(GravityCompat.START)
+        }
+
+        val opInventario = findViewById<LinearLayout>(R.id.LinearLayoutInventarioNV)
+        opInventario.setOnClickListener {
+            val intent = Intent(this, InventarioActivity::class.java)
+            startActivity(intent)
+            drawerLayout.closeDrawer(GravityCompat.START)
+        }
+
+        val cvConfiguracion = findViewById<CardView>(R.id.CardViewConfiguracion)
+        cvConfiguracion.setOnClickListener {
+            val intent = Intent(this, Configuracion::class.java)
+            startActivity(intent)
+            drawerLayout.closeDrawer(GravityCompat.START)
+        }
+
+        val opConfiguracion = findViewById<LinearLayout>(R.id.LinearLayoutConfiguracionNV)
+        opConfiguracion.setOnClickListener {
+            val intent = Intent(this, Configuracion::class.java)
+            startActivity(intent)
             drawerLayout.closeDrawer(GravityCompat.START)
         }
     }

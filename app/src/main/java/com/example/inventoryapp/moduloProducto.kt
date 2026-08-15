@@ -3,16 +3,22 @@ package com.example.inventoryapp
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.drawerlayout.widget.DrawerLayout
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class moduloProducto : AppCompatActivity() {
+
+    private lateinit var drawerLayout: DrawerLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -79,6 +85,10 @@ class moduloProducto : AppCompatActivity() {
             startActivity(intent)
         }
 
+        val btnMenuP = findViewById<ImageView>(R.id.imgBtnMenu)
+        btnMenuP.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
     }
 
 }
