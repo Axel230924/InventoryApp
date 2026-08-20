@@ -1,18 +1,18 @@
-package com.example.inventoryapp.data.dao
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
-import com.inventoryapp.data.entity.Producto
+package com.inventoryapp.data.dao
+import androidx.room.Dao   // Importamos la base de datos con el recurso DAO
+import androidx.room.Delete   // Importamos la consulta Delete
+import androidx.room.Insert  // Importamos la consulta Insert
+import androidx.room.Query   // Importamos la consulta Query
+import androidx.room.Update   // Importamos la consulta Update
+import com.inventoryapp.data.entity.Producto   // Importamos la entidad Producto
 
 @Dao
-interface ProductoDao {
-    @Insert suspend fun Insertar(producto: Producto)
+interface ProductoDao {   // Creamos el DAO (Consultas a la base de datos)
+    @Insert suspend fun Insertar(producto: Producto)   // Función con la consulta Insertar
 
-    @Update suspend fun Actualizar(producto: Producto)
+    @Update suspend fun Actualizar(producto: Producto)   // Función con la consulta Actualizar
 
-    @Delete suspend fun Eliminar(producto: Producto)
+    @Delete suspend fun Eliminar(producto: Producto)   // Función con la consulta Eliminar
 
-    @Query("SELECT * FROM Productos") suspend fun ObtenerTodos(): List<Producto>
+    @Query("SELECT * FROM Productos") suspend fun ObtenerTodos(): List<Producto>   // Función listar
 }
