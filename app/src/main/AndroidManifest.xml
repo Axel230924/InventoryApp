@@ -22,34 +22,34 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Dashboard"
+            android:name=".ui.dashboard.Dashboard"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".Configuracion"
+            android:name=".ui.configuraciones.Configuracion"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".Reportes"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".moduloProducto"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".detalleProducto"
+            android:name=".ui.dashboard.Reportes"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".InventarioActivity"
+            android:name=".ui.productos.ModuloProducto"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.productos.DetalleProducto"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".DetalleProductoActivity"
+            android:name=".ui.productos.InventarioActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.productos.DetalleProductoActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
     </application>

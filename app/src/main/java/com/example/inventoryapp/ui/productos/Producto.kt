@@ -1,4 +1,4 @@
-package com.example.inventoryapp
+package com.example.inventoryapp.ui.productos
 
 data class Producto(
     val nombre: String,
