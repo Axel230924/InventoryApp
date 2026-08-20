@@ -1,4 +1,4 @@
-package com.example.inventoryapp
+package com.example.inventoryapp.ui.dashboard
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,6 +12,11 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import com.example.inventoryapp.ui.configuraciones.Configuracion
+import com.example.inventoryapp.ui.productos.InventarioActivity
+import com.example.inventoryapp.MainActivity
+import com.example.inventoryapp.ui.productos.ModuloProducto
+import com.example.inventoryapp.R
 import com.google.android.material.navigation.NavigationView
 
 class Dashboard : AppCompatActivity() {
@@ -74,14 +79,14 @@ class Dashboard : AppCompatActivity() {
 
         val cvProducto = findViewById<CardView>(R.id.CardViewProductos)
         cvProducto.setOnClickListener {
-            val intent = Intent(this, moduloProducto::class.java)
+            val intent = Intent(this, ModuloProducto::class.java)
             startActivity(intent)
             drawerLayout.closeDrawer(GravityCompat.START)
         }
 
         val opProducto = findViewById<LinearLayout>(R.id.LinearLayoutProductoNV)
         opProducto.setOnClickListener {
-            val intent = Intent(this, moduloProducto::class.java)
+            val intent = Intent(this, ModuloProducto::class.java)
             startActivity(intent)
             drawerLayout.closeDrawer(GravityCompat.START)
         }

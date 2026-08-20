@@ -1,4 +1,4 @@
-package com.example.inventoryapp
+package com.example.inventoryapp.ui.productos
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.inventoryapp.R
 
 class ProductoAdapter(
     private val productos: List<Producto>
