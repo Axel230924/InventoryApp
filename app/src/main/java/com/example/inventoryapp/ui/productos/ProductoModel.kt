@@ -1,9 +1,9 @@
 package com.example.inventoryapp.ui.productos
 
-data class Producto(
+data class ProductoModel(
     val nombre: String,
     val precio: String,
     val imagen: Int,
     val codigo: String,
-    val stock: Int
+    val cantidad: Int
 )

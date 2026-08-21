@@ -27,46 +27,46 @@ class ModuloProducto : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val productos = listOf(
+        val productoModels = listOf(
 
-            Producto(
+            ProductoModel(
                 "Laptop Dell inspiron 15",
                 "$500",
                 R.drawable.laptopinspiro15,
                 codigo = "0001",
-                stock = 10
+                cantidad =  10
             ),
 
-            Producto(
+            ProductoModel(
                 "Mouse Logitech",
                 "$25",
                 R.drawable.raton,
                 codigo = "0002",
-                stock = 17
+                cantidad = 17
             ),
 
-            Producto(
+            ProductoModel(
                 "Teclado Mecánico",
                 "$45",
                 R.drawable.teclado,
                 codigo = "0003",
-                stock = 15
+                cantidad = 15
             ),
 
-            Producto(
+            ProductoModel(
                 "Monitor Samsung",
                 "$800",
                 R.drawable.monitorsamsung,
                 codigo = "0004",
-                stock = 10
+                cantidad = 10
             ),
 
-            Producto(
+            ProductoModel(
                 "Audífonos Sony",
                 "$60",
                 R.drawable.audifonosony,
                 codigo = "0005",
-                stock = 20
+                cantidad = 20
             )
         )
 
@@ -74,7 +74,7 @@ class ModuloProducto : AppCompatActivity() {
 
         recyclerProductos.layoutManager = LinearLayoutManager(this)
 
-        recyclerProductos.adapter = ProductoAdapter(productos)
+        recyclerProductos.adapter = ProductoAdapter(productoModels)
 
         val newProducto= findViewById<FloatingActionButton>(R.id.btnAgregarProducto)
 
