@@ -1,4 +1,4 @@
-package com.example.inventoryapp
+package com.example.inventoryapp.ui.configuraciones
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.inventoryapp.R
 
 class Configuracion : AppCompatActivity() {
 

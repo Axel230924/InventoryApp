@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:fontFamily="@font/roboto"
-        android:text="@string/nuevo_producto"
+        android:text="ACTUALIZAR PRODUCTO"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@id/imgBtnMenu"
@@ -87,44 +87,20 @@
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="8dp"
-                android:hint="@string/ej_teclado_mecanico"
-                android:inputType="textCapSentences"
-                android:importantForAutofill="yes"
                 android:autofillHints="name"
+                android:hint="@string/ej_teclado_mecanico"
+                android:importantForAutofill="yes"
+                android:inputType="textCapSentences"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblNombreProducto" />
 
             <!-- CÓDIGO -->
 
-            <TextView
-                android:id="@+id/lblCodigo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/codigo"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edtNombreProducto" />
 
-            <EditText
-                android:id="@+id/edtCodigo"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="8dp"
-                android:hint="@string/ej_100000f"
-                android:inputType="textCapCharacters"
-                android:importantForAutofill="no"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lblCodigo" />
 
             <!-- CATEGORÍA -->
 
@@ -137,7 +113,7 @@
                 android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edtCodigo" />
+                app:layout_constraintTop_toBottomOf="@+id/edtNombreProducto" />
 
             <AutoCompleteTextView
                 android:id="@+id/edtCategoria"
@@ -145,13 +121,13 @@
                 android:layout_height="48dp"
                 android:layout_marginTop="8dp"
                 android:hint="@string/seleccione_la_categoria"
-                android:inputType="none"
                 android:importantForAutofill="no"
+                android:inputType="none"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblCategoria" />
 
             <!-- PRECIO -->
@@ -173,13 +149,13 @@
                 android:layout_height="48dp"
                 android:layout_marginTop="8dp"
                 android:hint="@string/cero_punto_cero_cero"
-                android:inputType="numberDecimal"
                 android:importantForAutofill="no"
+                android:inputType="numberDecimal"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblPrecio" />
 
             <!-- CANTIDAD -->
@@ -201,16 +177,16 @@
                 android:layout_height="48dp"
                 android:layout_marginTop="8dp"
                 android:hint="@string/cero"
-                android:inputType="number"
                 android:importantForAutofill="no"
+                android:inputType="number"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblCantidad" />
 
-            <!-- BOTÓN GUARDAR -->
+            <!-- BOTÓN ACTUALIZAR -->
 
             <Button
                 android:id="@+id/btnGuardarProducto"
@@ -220,13 +196,13 @@
                 android:layout_marginEnd="2dp"
                 android:layout_marginBottom="12dp"
                 android:backgroundTint="#022D36"
-                android:text="@string/guardar_producto"
+                android:text="ACTUALIZAR PRODUCTO"
                 android:textColor="@android:color/white"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
