@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.inventoryapp.data.database.InventoryDatabase
 import com.inventoryapp.data.repository.ProductoRepository
 import com.inventoryapp.viewmodel.ProductoViewModel
+//import com.example.inventoryapp.ui.productos.EditarProductoActivity
 
 class ModuloProducto : AppCompatActivity() {
 
@@ -61,8 +62,20 @@ class ModuloProducto : AppCompatActivity() {
         recyclerProductos.layoutManager = LinearLayoutManager(this)
 
         // Creamos la instancia al adapter y nos permitirá utilizarlo en el recycler.
-        val adapter = ProductoAdapter()
+        //val adapter = ProductoAdapter()
+
+
+        val adapter = ProductoAdapter{producto -> val intent = Intent(this,EditarProductoActivity::class.java)
+            intent.putExtra("id", producto.id)
+            intent.putExtra("nombre", producto.nombre)
+            intent.putExtra("categoria", producto.categoria)
+            intent.putExtra("codigo", producto.codigo)
+            intent.putExtra("precio", producto.precio)
+            intent.putExtra("cantidad", producto.cantidad)
+            startActivity(intent)
+        }
         recyclerProductos.adapter = adapter
+
 
         // Permite preguntar si desde el ViewModel hay productos
         viewModel.productos.observe(this) { productos ->

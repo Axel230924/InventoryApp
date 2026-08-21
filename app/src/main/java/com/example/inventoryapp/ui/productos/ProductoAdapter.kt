@@ -8,9 +8,8 @@ import androidx.recyclerview.widget.ListAdapter   // Le indicamos que podemos tr
 import com.inventoryapp.data.entity.Producto   // Importar la entidad
 import com.example.inventoryapp.databinding.ItemProductoBinding  // Importar el binding
 
-// Creamos la clase ProductoAdapter que trabajará con la entidad Producto
-class ProductoAdapter :
-    ListAdapter<Producto, ProductoAdapter.ViewHolder>(  // Indica que cada lista Producto será representado como un ViewHolder
+// Creamos la clase ProductoAdapter que trabajará con la entidad Producto//Hacemos que el producto adapter pueda recivir clicks
+class ProductoAdapter(private val onItemClick: (com.inventoryapp.data.entity.Producto) -> Unit): ListAdapter<Producto, ProductoAdapter.ViewHolder>(  // Indica que cada lista Producto será representado como un ViewHolder
         DiffCallback()  // Permite comparar las listas y detectar si cambió algo.
     ) {
 
@@ -20,7 +19,7 @@ class ProductoAdapter :
     ) : RecyclerView.ViewHolder(binding.root) {
 
         // Esta función nos permite trabajar en conjunto con el recyclerView y con la entidad Producto
-        fun bind(producto: Producto) {
+        fun bind(producto: Producto, onItemClick: (Producto) -> Unit) {
 
             // Le asignamos al elemento Nombre del recycler el atributo nombre del producto.
             // Aquí nos permite unir la entidad con el recycler
@@ -28,6 +27,8 @@ class ProductoAdapter :
             binding.txtCodigo.text = "Código: ${producto.codigo}"
             binding.txtPrecio.text = "C$${String.format("%.2f", producto.precio)}"
             binding.txtCantidad.text = "Cantidad: ${producto.cantidad}"
+
+            binding.root.setOnClickListener { onItemClick(producto)}
         }
     }
 
@@ -56,8 +57,9 @@ class ProductoAdapter :
 
         // Toma la posición y la pasa al bind
         holder.bind(
-            getItem(position)
+            getItem(position), onItemClick
         )
+
     }
 
     // Esta clase se crea para permitir hacer validaciones.
