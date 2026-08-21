@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!-- Contenedor principal de la pantalla Detalle de producto. ConstraintLayout permite organizar los elementos mediante restricciones -->
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -17,17 +16,17 @@
         android:layout_width="0dp"
         android:layout_height="80dp"
         app:cardElevation="0dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <!-- Contenedor horizontal de la barra superior -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
+            android:background="#022D36"
             android:gravity="center_vertical"
-            android:background="#022D36">
+            android:orientation="horizontal">
 
             <!--BOTÓN DE MENÚ: Las tres líneas permitirán abrir posteriormente el menú lateral de navegación. -->
             <TextView
@@ -36,8 +35,8 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="☰"
-                android:textSize="28sp"
-                android:textColor="#FFFFFF"/>
+                android:textColor="#FFFFFF"
+                android:textSize="28sp" />
 
             <!--TÍTULO: Indica que estamos en la pantalla de detalle del producto. -->
             <TextView
@@ -45,9 +44,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Detalle del producto"
+                android:textColor="#FFFFFF"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="#FFFFFF"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -63,13 +62,13 @@
         android:layout_marginTop="26dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="30dp"
+        app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="10dp"
         app:cardElevation="3dp"
-        app:layout_constraintTop_toBottomOf="@id/barraSuperior"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:cardBackgroundColor="#FFFFFF">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barraSuperior">
 
         <!-- Contenedor vertical de toda la información del producto.-->
         <LinearLayout
@@ -92,8 +91,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <!-- Nombre del producto -->
                 <TextView
@@ -102,9 +101,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Laptop del inspiro 15"
+                    android:textColor="#000000"
                     android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="#000000"/>
+                    android:textStyle="bold" />
 
                 <!-- Estado del producto -->
                 <TextView
@@ -117,9 +116,9 @@
                     android:paddingEnd="12dp"
                     android:paddingBottom="5dp"
                     android:text="Activo"
+                    android:textColor="#5ccb5f"
                     android:textSize="13sp"
-                    android:textStyle="bold"
-                    android:textColor="#5ccb5f"/>
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -137,16 +136,16 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Código:"
-                    android:textSize="14sp"
-                    android:textColor="#000000"/>
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tvCodigoProducto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="LAP001"
-                    android:textSize="14sp"
-                    android:textColor="#000000"/>
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -163,16 +162,16 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Categoría"
-                    android:textSize="14sp"
-                    android:textColor="#000000"/>
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tvCategoriaProducto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="computadora"
-                    android:textSize="14sp"
-                    android:textColor="#000000"/>
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -189,16 +188,16 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Precio:"
-                    android:textSize="14sp"
-                    android:textColor="#000000"/>
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tvPrecioProducto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="$550.00"
-                    android:textSize="14sp"
-                    android:textColor="#000000"/>
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -214,85 +213,60 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Stock Actual:"
-                    android:textSize="14sp"
-                    android:textColor="#000000"/>
+                    android:text="Cantidad"
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/tvStockActual"
+                    android:id="@+id/tvCantidad"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="15 unidades"
-                    android:textSize="14sp"
-                    android:textColor="#000000"/>
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="35dp"
+                android:layout_marginBottom="20dp">
+
+                <Button
+                    android:id="@+id/btnEditar"
+                    android:layout_width="280dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="8dp"
+                    android:text="Editar"
+                    android:textColor="@android:color/white"
+                    android:backgroundTint="#6750A4" />
+
+                <Button
+                    android:id="@+id/btnEliminar"
+                    android:layout_width="280dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:text="Eliminar"
+                    android:textColor="@android:color/white"
+                    android:backgroundTint="#D32F2F" />
             </LinearLayout>
 
 
             <!-- Stock mínimo -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Stock mínimo"
-                    android:textSize="14sp"
-                    android:textColor="#000000"/>
-
-                <TextView
-                    android:id="@+id/tvStockMinimo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="5 unidades"
-                    android:textSize="14sp"
-                    android:textColor="#000000"/>
-
-            </LinearLayout>
 
 
             <!--TÍTULO DE LA DESCRIPCIÓN: Aparece fuera del cuadro de descripción. -->
-            <TextView
-                android:id="@+id/tvTituloDescripcion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="16dp"
-                android:text="Descripción:"
-                android:textSize="14sp"
-                android:textColor="#000000"/>
 
 
             <!--CUADRO DE DESCRIPCIÓN: Contiene las características adicionales del producto. -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardDescripcion"
-                android:layout_width="match_parent"
-                android:layout_height="105dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="22dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="2dp"
-                app:cardBackgroundColor="#FFFFFF">
-
-                <!-- Texto de la descripción -->
-                <TextView
-                    android:id="@+id/tvDescripcionProducto"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="12dp"
-                    android:text="8GB de ram"
-                    android:textSize="14sp"
-                    android:textColor="#000000" />
-
-            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
