@@ -34,9 +34,13 @@ class InventarioActivity : AppCompatActivity() {
 
         // Busca la tarjeta de Laptop Dell Inspiro 15.
         val cardMov4 = findViewById<CardView>(R.id.cardMovimiento4)
-        cardMov4.setOnClickListener { // Detecta cuando el usuario toca la tarjeta.
+        cardMov4.setOnClickListener {
+
+            // Detecta cuando el usuario toca la tarjeta.
             // Crea una navegación hacia la pantalla Detalle del producto.
             val intent = Intent(this, DetalleProductoActivity::class.java)
+
+
             // Ejecuta la navegación.
             startActivity(intent)
         }
