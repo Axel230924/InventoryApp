@@ -74,7 +74,12 @@ class ModuloProducto : AppCompatActivity() {
 
         recyclerProductos.layoutManager = LinearLayoutManager(this)
 
-        recyclerProductos.adapter = ProductoAdapter(productoModels)
+        recyclerProductos.adapter = ProductoAdapter(productoModels) { producto ->
+            // Navegar a editar producto
+            val intent = Intent(this, EditarProductoActivity::class.java)
+            // Aquí se podrían pasar datos del producto con intent.putExtra
+            startActivity(intent)
+        }
 
         val newProducto= findViewById<FloatingActionButton>(R.id.btnAgregarProducto)
 
