@@ -33,7 +33,6 @@
             android:name=".ui.dashboard.Reportes"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
             android:name=".ui.productos.ModuloProducto"
             android:exported="false"
@@ -42,14 +41,16 @@
             android:name=".ui.productos.DetalleProducto"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
             android:name=".ui.productos.InventarioActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
             android:name=".ui.productos.DetalleProductoActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.productos.EditarProductoActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
     </application>
