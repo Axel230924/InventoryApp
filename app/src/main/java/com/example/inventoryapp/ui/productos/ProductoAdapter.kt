@@ -58,17 +58,17 @@ class ProductoAdapter(
         position: Int
     ) {
 
-        val producto = productos[position]
+        val producto = productoModels[position]
 
         holder.imagen.setImageResource(producto.imagen)
         holder.nombre.text = producto.nombre
         holder.codigo.text = "Código: ${producto.codigo}"
-        holder.stock.text = "Stock: ${producto.stock}"
+        holder.stock.text = "Stock: ${producto.cantidad}"
         holder.precio.text = "${producto.precio}"
     }
 
     override fun getItemCount(): Int {
-        return productos.size
+        return productoModels.size
     }
 
 }
