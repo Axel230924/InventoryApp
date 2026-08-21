@@ -1,4 +1,4 @@
-package com.example.inventoryapp.ui.productos
+package com.example.inventoryapp.ui.productos//importante corregir el import ya que la entidad importada debe ser de entity, no de .productos
 
 import android.content.Intent
 import android.os.Bundle
@@ -74,7 +74,16 @@ class ModuloProducto : AppCompatActivity() {
 
         recyclerProductos.layoutManager = LinearLayoutManager(this)
 
-        recyclerProductos.adapter = ProductoAdapter(productos)
+        //recyclerProductos.adapter = ProductoAdapter(productos)
+        //linea correspondiente a la funcion actualizar producto, si ocurre un error decomentar la linea superior y comentar la siguiente
+        val adapter = ProductoAdapter{producto -> val intent = Intent(this,EditarProductoActivity::class.java)
+            intent.putExtra("id",producto.id)
+            intent.putExtra("nombre",producto.nombre)
+            intent.putExtra("precio",producto.precio)
+            intent.putExtra("cantidad",producto.cantidad)
+            intent.putExtra("categoria",producto.categoria)
+        }
+
 
         val newProducto= findViewById<FloatingActionButton>(R.id.btnAgregarProducto)
 
@@ -88,6 +97,8 @@ class ModuloProducto : AppCompatActivity() {
         btnMenuP.setOnClickListener {
             drawerLayout?.openDrawer(GravityCompat.START)
         }
+
+        recyclerProductos.adapter = adapter// correspondiente a la funcion actualizar producto
     }
 
 }
