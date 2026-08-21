@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.inventoryapp.R
 
 class ProductoAdapter(
-    private val productos: List<Producto>,
+    private val productos: List<ProductoModel>,
     //Actualizar Producto
-    private val onClick:(Producto)->Unit
+    private val onClick:(ProductoModel)->Unit
 
 
 ) : RecyclerView.Adapter<ProductoAdapter.ProductoViewHolder>() {
@@ -27,10 +27,10 @@ class ProductoAdapter(
 
 
         // FUN BIND correspondiente a actualizar producto
-        fun bind(producto: Producto) {
+        fun bind(producto: ProductoModel) {
             nombre.text = producto.nombre
             precio.text = producto.precio.toString()
-            stock.text = producto.stock.toString()
+            stock.text = producto.cantidad.toString()
 
             imagen.setImageResource(producto.imagen)
             codigo.text = "Código: ${producto.codigo}"
@@ -58,17 +58,12 @@ class ProductoAdapter(
         position: Int
     ) {
 
-        val producto = productoModels[position]
-
-        holder.imagen.setImageResource(producto.imagen)
-        holder.nombre.text = producto.nombre
-        holder.codigo.text = "Código: ${producto.codigo}"
-        holder.stock.text = "Stock: ${producto.cantidad}"
-        holder.precio.text = "${producto.precio}"
+        val producto = productos[position]
+        holder.bind(producto)
     }
 
     override fun getItemCount(): Int {
-        return productoModels.size
+        return productos.size
     }
 
 }
