@@ -9,14 +9,17 @@ import com.inventoryapp.data.entity.Producto   // Importar la entidad
 import com.example.inventoryapp.databinding.ItemProductoBinding  // Importar el binding
 
 // Creamos la clase ProductoAdapter que trabajará con la entidad Producto
-class ProductoAdapter :
+class ProductoAdapter(
+    private val onProductoClick: (Producto) -> Unit  // Significa: Cuando alguien de click en producto se ejecutará una función.
+) :
     ListAdapter<Producto, ProductoAdapter.ViewHolder>(  // Indica que cada lista Producto será representado como un ViewHolder
         DiffCallback()  // Permite comparar las listas y detectar si cambió algo.
     ) {
 
     // Indica que trabajará con una fila individual del recyclerView y cada ViewHolder será una copia de itemProducto
     class ViewHolder(
-        private val binding: ItemProductoBinding  // Permite acceder directamente a las vistas de item_producto.xml mediante View Binding.
+        private val binding: ItemProductoBinding,  // Permite acceder directamente a las vistas de item_producto.xml mediante View Binding.
+        private val onProductoClick: (Producto) -> Unit  // Al hacer click en producto se ejecutará esta función
     ) : RecyclerView.ViewHolder(binding.root) {
 
         // Esta función nos permite trabajar en conjunto con el recyclerView y con la entidad Producto
@@ -28,6 +31,9 @@ class ProductoAdapter :
             binding.txtCodigo.text = "Código: ${producto.codigo}"
             binding.txtPrecio.text = "C$${String.format("%.2f", producto.precio)}"
             binding.txtCantidad.text = "Cantidad: ${producto.cantidad}"
+            binding.root.setOnClickListener {
+                onProductoClick(producto)  // Llamamos a que se ejecute la función
+            }
         }
     }
 
@@ -45,7 +51,7 @@ class ProductoAdapter :
         )
 
         // Nos retorna un ViewHolder
-        return ViewHolder(binding)
+        return ViewHolder(binding, onProductoClick) // Retornamos el bindin y la función.
     }
 
     // Esta función nos permite colocar los datos que traemos de la entidad y los colocamos en un ViewHolder
