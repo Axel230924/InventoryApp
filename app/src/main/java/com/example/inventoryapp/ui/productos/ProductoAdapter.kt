@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter   // Le indicamos que podemos tr
 import com.inventoryapp.data.entity.Producto   // Importar la entidad
 import com.example.inventoryapp.databinding.ItemProductoBinding  // Importar el binding
 
-// Creamos la clase Productoadapter que trabajará con la entidad Producto
+// Creamos la clase ProductoAdapter que trabajará con la entidad Producto
 class ProductoAdapter :
     ListAdapter<Producto, ProductoAdapter.ViewHolder>(  // Indica que cada lista Producto será representado como un ViewHolder
         DiffCallback()  // Permite comparar las listas y detectar si cambió algo.
@@ -25,11 +25,9 @@ class ProductoAdapter :
             // Le asignamos al elemento Nombre del recycler el atributo nombre del producto.
             // Aquí nos permite unir la entidad con el recycler
             binding.txtNombreProducto.text = producto.nombre
-            binding.txtCodigo.text = producto.codigo
-            binding.txtPrecio.text =
-                producto.precio.toString()
-            binding.txtCantidad.text =
-                producto.cantidad.toString()
+            binding.txtCodigo.text = "Código: ${producto.codigo}"
+            binding.txtPrecio.text = "C$${String.format("%.2f", producto.precio)}"
+            binding.txtCantidad.text = "Cantidad: ${producto.cantidad}"
         }
     }
 
@@ -66,7 +64,7 @@ class ProductoAdapter :
     class DiffCallback :
         DiffUtil.ItemCallback<Producto>() {
 
-        // Primer validación ¿el producto nuevo y el anterior representan al mismo producto?
+        // Primera validación ¿el producto nuevo y el anterior representan al mismo producto?
         // Si ambos tienen el mismo id, entonces es el mismo producto
         override fun areItemsTheSame(
             oldItem: Producto,

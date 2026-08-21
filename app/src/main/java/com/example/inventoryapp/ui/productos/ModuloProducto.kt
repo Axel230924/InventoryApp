@@ -13,6 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.inventoryapp.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.inventoryapp.data.database.InventoryDatabase
+import com.inventoryapp.data.repository.ProductoRepository
+import com.inventoryapp.viewmodel.ProductoViewModel
 
 class ModuloProducto : AppCompatActivity() {
 
@@ -22,73 +27,56 @@ class ModuloProducto : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_producto)
+
+        // Nos permite recrear y traer el flujo de la base de datos para poder utilizarlo aquí
+        // Database --> DAO --> Repository --> ViewModel
+        val database = InventoryDatabase.getDatabase(applicationContext)
+        val dao = database.productoDao()
+        val repository = ProductoRepository(dao)
+        val factory = object : ViewModelProvider.Factory {
+
+            override fun <T : ViewModel> create(
+                modelClass: Class<T>
+            ): T {
+                if (modelClass.isAssignableFrom(ProductoViewModel::class.java)) {
+                    return ProductoViewModel(repository) as T
+                }
+                throw IllegalArgumentException("Unknown ViewModel class")
+            }
+        }
+        val viewModel = ViewModelProvider(
+            this,
+            factory
+        )[ProductoViewModel::class.java]
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val productoModels = listOf(
 
-            ProductoModel(
-                "Laptop Dell inspiron 15",
-                "$500",
-                R.drawable.laptopinspiro15,
-                codigo = "0001",
-                cantidad =  10
-            ),
-
-            ProductoModel(
-                "Mouse Logitech",
-                "$25",
-                R.drawable.raton,
-                codigo = "0002",
-                cantidad = 17
-            ),
-
-            ProductoModel(
-                "Teclado Mecánico",
-                "$45",
-                R.drawable.teclado,
-                codigo = "0003",
-                cantidad = 15
-            ),
-
-            ProductoModel(
-                "Monitor Samsung",
-                "$800",
-                R.drawable.monitorsamsung,
-                codigo = "0004",
-                cantidad = 10
-            ),
-
-            ProductoModel(
-                "Audífonos Sony",
-                "$60",
-                R.drawable.audifonosony,
-                codigo = "0005",
-                cantidad = 20
-            )
-        )
 
         val recyclerProductos = findViewById<RecyclerView>(R.id.rvProductos)
 
         recyclerProductos.layoutManager = LinearLayoutManager(this)
 
-        recyclerProductos.adapter = ProductoAdapter(productoModels) { producto ->
-            // Navegar a editar producto
-            val intent = Intent(this, EditarProductoActivity::class.java)
-            // Aquí se podrían pasar datos del producto con intent.putExtra
-            startActivity(intent)
+        // Creamos la instancia al adapter y nos permitirá utilizarlo en el recycler.
+        val adapter = ProductoAdapter()
+        recyclerProductos.adapter = adapter
+
+        // Permite preguntar si desde el ViewModel hay productos
+        viewModel.productos.observe(this) { productos ->
+            adapter.submitList(productos)  // Si hay, se los pasa al adapter
         }
 
+        // Realizamos un evento, al hacer click en el boton agregar se nos abrirá la pantalla detalleProducto
         val newProducto= findViewById<FloatingActionButton>(R.id.btnAgregarProducto)
-
         newProducto.setOnClickListener {
             val intent= Intent(this, DetalleProducto::class.java)
-
             startActivity(intent)
         }
 
+        // Permite abrir el menú si presionamos el boton menú
         val btnMenuP = findViewById<ImageView>(R.id.imgBtnMenu)
         btnMenuP.setOnClickListener {
             drawerLayout?.openDrawer(GravityCompat.START)
