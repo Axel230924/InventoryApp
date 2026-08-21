@@ -1,6 +1,6 @@
 package com.inventoryapp.data.repository
 
-import com.example.inventoryapp.data.dao.ProductoDao   // Importamos la clase ProductoDao
+import com.inventoryapp.data.dao.ProductoDao   // Importamos la clase ProductoDao
 import com.inventoryapp.data.entity.Producto   // Importamos el modelo Producto
 
 class ProductoRepository(   // Creamos una clase
