@@ -11,4 +11,6 @@ class ProductoViewModel(private val repository: ProductoRepository):ViewModel(){
     {
     viewModelScope.launch{repository.insertar(producto)}    // accedemos a la función insertar del repository
     }
+
+    val productos = repository.listaProducto  // Toma la lista que traemos desde el repository
 }
