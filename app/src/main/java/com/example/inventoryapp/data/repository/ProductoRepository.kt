@@ -6,6 +6,8 @@ import com.inventoryapp.data.entity.Producto   // Importamos el modelo Producto
 class ProductoRepository(   // Creamos una clase
     private val dao: ProductoDao   // Hacemos una instancia a la clase ProductoDao y lo guardamos en una variable
 ) {
+
+    val listaProducto = dao.ObtenerTodos() // Llamamos a la función ObtenerTodo del dao.
     suspend fun insertar(   // Creamos una función insertar para posteriormente llamarla
         producto: Producto   // Hacemos la instancia con Producto
     ){
@@ -20,9 +22,5 @@ class ProductoRepository(   // Creamos una clase
         producto: Producto   // Hacemos la instancia con Producto
     ){
         dao.Eliminar(producto)   // Accedemos a la función eliminar en ProductoDao
-    }
-    suspend fun obtenerTodos():   // Creamos una función obtener todos productos para posteriormente llamarla
-            List<Producto>{   //Listamos todos los productos que tenemos.
-        return dao.ObtenerTodos()   // Accedemos a la función obtenertodos en ProductoDao
     }
 }

@@ -10,5 +10,6 @@ data class Producto( // creamos una clase
     val precio:Double, // Precio
     val cantidad:Int, // Cantidad
     val categoria:String, // Categoria a la que pertenece
+    val codigo: String,
     val imagen:String="" // Campo imagen
 )
