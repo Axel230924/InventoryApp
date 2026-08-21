@@ -59,20 +59,16 @@ class ModuloProducto : AppCompatActivity() {
         recyclerProductos.layoutManager = LinearLayoutManager(this)
 
         // Creamos la instancia al adapter y nos permitirá utilizarlo en el recycler.
-        val adapter = ProductoAdapter { producto ->
+        //val adapter = ProductoAdapter()
 
-            val intent = Intent(
-                this,
-                DetalleProductoActivity::class.java
-            )
 
+        val adapter = ProductoAdapter{producto -> val intent = Intent(this,EditarProductoActivity::class.java)
             intent.putExtra("id", producto.id)
             intent.putExtra("nombre", producto.nombre)
-            intent.putExtra("codigo", producto.codigo)
             intent.putExtra("categoria", producto.categoria)
+            intent.putExtra("codigo", producto.codigo)
             intent.putExtra("precio", producto.precio)
             intent.putExtra("cantidad", producto.cantidad)
-
             startActivity(intent)
         }
         recyclerProductos.adapter = adapter

@@ -9,8 +9,14 @@ import com.inventoryapp.data.repository.ProductoRepository   // Importamos el re
 class ProductoViewModel(private val repository: ProductoRepository):ViewModel(){   // Creamos una clase
     fun guardarProducto(producto: Producto)   // Creamos una función guardar producto
     {
-    viewModelScope.launch{repository.insertar(producto)}    // accedemos a la función insertar del repository
+        viewModelScope.launch{repository.insertar(producto)}    // accedemos a la función insertar del repository
     }
+
+    fun actualizarProducto(producto: Producto) {
+        viewModelScope.launch {
+            repository.actualizar(producto)
+        }
+    }// accedemos a la función actualizar del repository
 
     val productos = repository.listaProducto  // Toma la lista que traemos desde el repository
 }
