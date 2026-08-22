@@ -19,4 +19,11 @@ class ProductoViewModel(private val repository: ProductoRepository):ViewModel(){
     }// accedemos a la función actualizar del repository
 
     val productos = repository.listaProducto  // Toma la lista que traemos desde el repository
+
+    // Paso EXTRA: Agregamos la función para eliminar un producto desde el ViewModel
+    fun eliminarProducto(producto: Producto) {
+        viewModelScope.launch {
+            repository.eliminar(producto)
+        }
+    }
 }
