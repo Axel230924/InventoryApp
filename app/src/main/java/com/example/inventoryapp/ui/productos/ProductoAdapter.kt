@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter   // Le indicamos que podemos trabajar el recyclerView como lista
 import com.inventoryapp.data.entity.Producto   // Importar la entidad
 import com.example.inventoryapp.databinding.ItemProductoBinding  // Importar el binding
+import android.net.Uri
 
 // Creamos la clase ProductoAdapter que trabajará con la entidad Producto//Hacemos que el producto adapter pueda recivir clicks
 class ProductoAdapter(private val onItemClick: (com.inventoryapp.data.entity.Producto) -> Unit): ListAdapter<Producto, ProductoAdapter.ViewHolder>(  // Indica que cada lista Producto será representado como un ViewHolder
@@ -28,6 +29,14 @@ class ProductoAdapter(private val onItemClick: (com.inventoryapp.data.entity.Pro
             binding.txtCodigo.text = "Código: ${producto.codigo}"
             binding.txtPrecio.text = "C$${String.format("%.2f", producto.precio)}"
             binding.txtCantidad.text = "Cantidad: ${producto.cantidad}"
+            if (producto.imagen.isNotEmpty()) {
+                binding.imgProducto.setImageURI(
+                    Uri.parse(producto.imagen)
+                )
+            }
+            binding.root.setOnClickListener {
+                onProductoClick(producto)  // Llamamos a que se ejecute la función
+            }
 
             binding.root.setOnClickListener { onItemClick(producto)}
         }

@@ -7,6 +7,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.inventoryapp.R
 import android.widget.TextView
+import android.net.Uri
+import android.widget.ImageView
 // Importaciones necesarias
 import android.content.Intent
 import android.widget.Button
@@ -29,6 +31,15 @@ class DetalleProductoActivity : AppCompatActivity() {
 
         // Carga el diseño XML de la pantalla Detalle del producto.
         setContentView(R.layout.detalle_producto)
+
+        val imgProducto =
+            findViewById<ImageView>(R.id.imgProducto)
+
+        val imagen = intent.getStringExtra("imagen")
+
+        if (!imagen.isNullOrEmpty()) {
+            imgProducto.setImageURI(Uri.parse(imagen))
+        }
 
         // Paso 1: Obtenemos los datos enviados desde la pantalla anterior
         val id = intent.getIntExtra("id", -1)
