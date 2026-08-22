@@ -5,10 +5,8 @@ import android.os.Bundle
 import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.inventoryapp.R
@@ -18,9 +16,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.inventoryapp.data.database.InventoryDatabase  // Importamos Inventory
 import com.inventoryapp.data.repository.ProductoRepository // El repository
 import com.inventoryapp.viewmodel.ProductoViewModel // El ViewModel
+import com.example.inventoryapp.ui.productos.DetalleProductoActivity
 
 class ModuloProducto : AppCompatActivity() {
-    private var drawerLayout: DrawerLayout? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -72,6 +70,7 @@ class ModuloProducto : AppCompatActivity() {
             intent.putExtra("categoria", producto.categoria)
             intent.putExtra("precio", producto.precio)
             intent.putExtra("cantidad", producto.cantidad)
+            intent.putExtra("imagen", producto.imagen)
 
             startActivity(intent)
         }
@@ -87,12 +86,6 @@ class ModuloProducto : AppCompatActivity() {
         newProducto.setOnClickListener {
             val intent= Intent(this, DetalleProducto::class.java)
             startActivity(intent)
-        }
-
-        // Permite abrir el menú si presionamos el boton menú
-        val btnMenuP = findViewById<ImageView>(R.id.imgBtnMenu)
-        btnMenuP.setOnClickListener {
-            drawerLayout?.openDrawer(GravityCompat.START)
         }
     }
 
