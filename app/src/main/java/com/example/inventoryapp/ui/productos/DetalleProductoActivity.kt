@@ -7,6 +7,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.inventoryapp.R
 import android.widget.TextView
+// Importaciones necesarias
+import android.content.Intent
+import android.widget.Button
 
 class DetalleProductoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +48,18 @@ class DetalleProductoActivity : AppCompatActivity() {
         txtPrecio.text = "C$${String.format("%.2f", precio)}"
 
         txtcantidad.text = "$cantidad"
+
+        val btnEditar = findViewById<Button>(R.id.btnEditar)
+        btnEditar.setOnClickListener {
+            val intent = Intent(this, EditarProductoActivity::class.java)
+            intent.putExtra("id", id)
+            intent.putExtra("nombre", nombre)
+            intent.putExtra("codigo", codigo)
+            intent.putExtra("categoria", categoria)
+            intent.putExtra("precio", precio)
+            intent.putExtra("cantidad", cantidad)
+            startActivity(intent)
+        }
 
         // Permite adaptar la pantalla a las barras del sistema.
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
