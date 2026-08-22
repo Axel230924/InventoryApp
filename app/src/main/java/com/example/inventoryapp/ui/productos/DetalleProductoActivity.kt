@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.inventoryapp.R
+import android.widget.TextView
 
 class DetalleProductoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,6 +17,34 @@ class DetalleProductoActivity : AppCompatActivity() {
 
         // Carga el diseño XML de la pantalla Detalle del producto.
         setContentView(R.layout.detalle_producto)
+
+        val id = intent.getIntExtra("id", -1)
+
+        val nombre = intent.getStringExtra("nombre") ?: ""
+        val codigo = intent.getStringExtra("codigo") ?: ""
+        val categoria = intent.getStringExtra("categoria") ?: ""
+        val precio = intent.getDoubleExtra("precio", 0.0)
+        val cantidad = intent.getIntExtra("cantidad", 0)
+
+        val txtNombreProducto = findViewById<TextView>(R.id.tvNombreProducto)
+
+        val txtCodigo = findViewById<TextView>(R.id.tvCodigoProducto)
+
+        val txtCategoria = findViewById<TextView>(R.id.tvCategoriaProducto)
+
+        val txtPrecio = findViewById<TextView>(R.id.tvPrecioProducto)
+
+        val txtcantidad = findViewById<TextView>(R.id.tvCantidad)
+
+        txtNombreProducto.text = nombre
+
+        txtCodigo.text = codigo
+
+        txtCategoria.text = categoria
+
+        txtPrecio.text = "C$${String.format("%.2f", precio)}"
+
+        txtcantidad.text = "$cantidad"
 
         // Permite adaptar la pantalla a las barras del sistema.
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->

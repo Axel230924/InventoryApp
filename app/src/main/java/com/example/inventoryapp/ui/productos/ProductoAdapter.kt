@@ -8,19 +8,19 @@ import androidx.recyclerview.widget.ListAdapter   // Le indicamos que podemos tr
 import com.inventoryapp.data.entity.Producto   // Importar la entidad
 import com.example.inventoryapp.databinding.ItemProductoBinding  // Importar el binding
 
-// Creamos la clase ProductoAdapter que trabajará con la entidad Producto
-class ProductoAdapter :
-    ListAdapter<Producto, ProductoAdapter.ViewHolder>(  // Indica que cada lista Producto será representado como un ViewHolder
+// Creamos la clase ProductoAdapter que trabajará con la entidad Producto//Hacemos que el producto adapter pueda recivir clicks
+class ProductoAdapter(private val onItemClick: (com.inventoryapp.data.entity.Producto) -> Unit): ListAdapter<Producto, ProductoAdapter.ViewHolder>(  // Indica que cada lista Producto será representado como un ViewHolder
         DiffCallback()  // Permite comparar las listas y detectar si cambió algo.
     ) {
 
     // Indica que trabajará con una fila individual del recyclerView y cada ViewHolder será una copia de itemProducto
     class ViewHolder(
-        private val binding: ItemProductoBinding  // Permite acceder directamente a las vistas de item_producto.xml mediante View Binding.
+        private val binding: ItemProductoBinding,  // Permite acceder directamente a las vistas de item_producto.xml mediante View Binding.
+        private val onProductoClick: (Producto) -> Unit  // Al hacer click en producto se ejecutará esta función
     ) : RecyclerView.ViewHolder(binding.root) {
 
         // Esta función nos permite trabajar en conjunto con el recyclerView y con la entidad Producto
-        fun bind(producto: Producto) {
+        fun bind(producto: Producto, onItemClick: (Producto) -> Unit) {
 
             // Le asignamos al elemento Nombre del recycler el atributo nombre del producto.
             // Aquí nos permite unir la entidad con el recycler
@@ -28,6 +28,8 @@ class ProductoAdapter :
             binding.txtCodigo.text = "Código: ${producto.codigo}"
             binding.txtPrecio.text = "C$${String.format("%.2f", producto.precio)}"
             binding.txtCantidad.text = "Cantidad: ${producto.cantidad}"
+
+            binding.root.setOnClickListener { onItemClick(producto)}
         }
     }
 
@@ -45,7 +47,7 @@ class ProductoAdapter :
         )
 
         // Nos retorna un ViewHolder
-        return ViewHolder(binding)
+        return ViewHolder(binding, onProductoClick) // Retornamos el bindin y la función.
     }
 
     // Esta función nos permite colocar los datos que traemos de la entidad y los colocamos en un ViewHolder
@@ -56,8 +58,9 @@ class ProductoAdapter :
 
         // Toma la posición y la pasa al bind
         holder.bind(
-            getItem(position)
+            getItem(position), onItemClick
         )
+
     }
 
     // Esta clase se crea para permitir hacer validaciones.

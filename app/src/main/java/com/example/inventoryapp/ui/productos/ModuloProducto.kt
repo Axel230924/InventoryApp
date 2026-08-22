@@ -12,17 +12,15 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.inventoryapp.R
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.floatingactionbutton.FloatingActionButton // Boton Flotante
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.inventoryapp.data.database.InventoryDatabase
-import com.inventoryapp.data.repository.ProductoRepository
-import com.inventoryapp.viewmodel.ProductoViewModel
+import com.inventoryapp.data.database.InventoryDatabase  // Importamos Inventory
+import com.inventoryapp.data.repository.ProductoRepository // El repository
+import com.inventoryapp.viewmodel.ProductoViewModel // El ViewModel
 
 class ModuloProducto : AppCompatActivity() {
-
     private var drawerLayout: DrawerLayout? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -33,8 +31,8 @@ class ModuloProducto : AppCompatActivity() {
         val database = InventoryDatabase.getDatabase(applicationContext)
         val dao = database.productoDao()
         val repository = ProductoRepository(dao)
-        val factory = object : ViewModelProvider.Factory {
 
+        val factory = object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(
                 modelClass: Class<T>
             ): T {
@@ -56,20 +54,31 @@ class ModuloProducto : AppCompatActivity() {
         }
 
 
+        // Accedemos al recyclerView
         val recyclerProductos = findViewById<RecyclerView>(R.id.rvProductos)
-
         recyclerProductos.layoutManager = LinearLayoutManager(this)
 
         // Creamos la instancia al adapter y nos permitirá utilizarlo en el recycler.
-        val adapter = ProductoAdapter()
+        //val adapter = ProductoAdapter()
+
+
+        val adapter = ProductoAdapter{producto -> val intent = Intent(this,EditarProductoActivity::class.java)
+            intent.putExtra("id", producto.id)
+            intent.putExtra("nombre", producto.nombre)
+            intent.putExtra("categoria", producto.categoria)
+            intent.putExtra("codigo", producto.codigo)
+            intent.putExtra("precio", producto.precio)
+            intent.putExtra("cantidad", producto.cantidad)
+            startActivity(intent)
+        }
         recyclerProductos.adapter = adapter
 
-        // Permite preguntar si desde el ViewModel hay productos
+        // Permite preguntar si desde el ViewModel nos envia Productos
         viewModel.productos.observe(this) { productos ->
             adapter.submitList(productos)  // Si hay, se los pasa al adapter
         }
 
-        // Realizamos un evento, al hacer click en el boton agregar se nos abrirá la pantalla detalleProducto
+        // Realizamos un evento, al hacer click en el botón agregar se nos abrirá la pantalla detalleProducto
         val newProducto= findViewById<FloatingActionButton>(R.id.btnAgregarProducto)
         newProducto.setOnClickListener {
             val intent= Intent(this, DetalleProducto::class.java)
