@@ -8,7 +8,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.inventoryapp.R
 import com.example.inventoryapp.databinding.ActivityEditarProductoBinding
 import com.inventoryapp.data.database.InventoryDatabase
 import com.inventoryapp.data.entity.Producto

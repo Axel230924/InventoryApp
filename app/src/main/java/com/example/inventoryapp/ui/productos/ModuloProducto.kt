@@ -62,7 +62,7 @@ class ModuloProducto : AppCompatActivity() {
         //val adapter = ProductoAdapter()
 
 
-        val adapter = ProductoAdapter{producto -> val intent = Intent(this,EditarProductoActivity::class.java)
+        val adapter = ProductoAdapter{producto -> val intent = Intent(this,DetalleProductoActivity::class.java)
             intent.putExtra("id", producto.id)
             intent.putExtra("nombre", producto.nombre)
             intent.putExtra("categoria", producto.categoria)

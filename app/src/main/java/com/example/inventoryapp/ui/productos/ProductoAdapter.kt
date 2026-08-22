@@ -47,7 +47,7 @@ class ProductoAdapter(private val onItemClick: (com.inventoryapp.data.entity.Pro
         )
 
         // Nos retorna un ViewHolder
-        return ViewHolder(binding, onProductoClick) // Retornamos el bindin y la función.
+        return ViewHolder(binding, onItemClick) // Antes decía onProductoClick
     }
 
     // Esta función nos permite colocar los datos que traemos de la entidad y los colocamos en un ViewHolder
