@@ -21,7 +21,7 @@ class ProductoAdapter(private val onItemClick: (com.inventoryapp.data.entity.Pro
     ) : RecyclerView.ViewHolder(binding.root) {
 
         // Esta función nos permite trabajar en conjunto con el recyclerView y con la entidad Producto
-        fun bind(producto: Producto, onItemClick: (Producto) -> Unit) {
+        fun bind(producto: Producto) {
 
             // Le asignamos al elemento Nombre del recycler el atributo nombre del producto.
             // Aquí nos permite unir la entidad con el recycler
@@ -38,7 +38,6 @@ class ProductoAdapter(private val onItemClick: (com.inventoryapp.data.entity.Pro
                 onProductoClick(producto)  // Llamamos a que se ejecute la función
             }
 
-            binding.root.setOnClickListener { onItemClick(producto)}
         }
     }
 
@@ -67,7 +66,7 @@ class ProductoAdapter(private val onItemClick: (com.inventoryapp.data.entity.Pro
 
         // Toma la posición y la pasa al bind
         holder.bind(
-            getItem(position), onItemClick
+            getItem(position)
         )
 
     }

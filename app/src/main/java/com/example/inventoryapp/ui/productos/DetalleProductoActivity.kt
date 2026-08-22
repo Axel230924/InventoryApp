@@ -12,7 +12,6 @@ import android.widget.ImageView
 // Importaciones necesarias
 import android.content.Intent
 import android.widget.Button
-import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModel
@@ -73,7 +72,11 @@ class DetalleProductoActivity : AppCompatActivity() {
             intent.putExtra("categoria", categoria)
             intent.putExtra("precio", precio)
             intent.putExtra("cantidad", cantidad)
+            intent.putExtra("imagen", imagen)
+
             startActivity(intent)
+        }
+
         // Paso 4: Configuramos el ViewModel para acceder a la base de datos
         val database = InventoryDatabase.getDatabase(applicationContext)
         val dao = database.productoDao()
@@ -102,7 +105,8 @@ class DetalleProductoActivity : AppCompatActivity() {
                         precio = precio,
                         cantidad = cantidad,
                         categoria = categoria,
-                        codigo = codigo
+                        codigo = codigo,
+                        imagen = imagen ?: ""
                     )
                     // Paso 5.3: Llamamos al ViewModel para borrarlo de la base de datos
                     viewModel.eliminarProducto(productoAEliminar)

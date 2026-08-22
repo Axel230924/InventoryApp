@@ -2,11 +2,14 @@ package com.example.inventoryapp.ui.productos
 
 import android.os.Bundle
 import android.widget.Toast
+import android.net.Uri
+import android.content.Intent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModel
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import com.example.inventoryapp.databinding.ActivityEditarProductoBinding
 import com.inventoryapp.data.database.InventoryDatabase
@@ -18,6 +21,24 @@ class EditarProductoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEditarProductoBinding
     private lateinit var viewModel: ProductoViewModel
+
+    private var imagenSeleccionada: Uri? = null
+
+    private val seleccionarImagen =
+        registerForActivityResult(
+            ActivityResultContracts.OpenDocument()
+        ) { uri ->
+
+            if (uri != null) {
+                // Guardamos el permiso para poder utilizar nuevamente esta imagen.
+                contentResolver.takePersistableUriPermission(
+                    uri,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
+                // Guardamos la nueva imagen seleccionada.
+                imagenSeleccionada = uri
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +74,13 @@ class EditarProductoActivity : AppCompatActivity() {
         val codigo = intent.getStringExtra("codigo")
         val precio = intent.getDoubleExtra("precio", 0.0)
         val cantidad = intent.getIntExtra("cantidad", 0)
+        val imagenanterior = intent.getStringExtra("imagen")
+
+        binding.imgSubir2.setOnClickListener {
+            seleccionarImagen.launch(
+                arrayOf("image/*")
+            )
+        }
 
         // Asignar los valores a los campos de la pantalla (UI)
         binding.edtNombreProducto.setText(nombre)
@@ -85,7 +113,7 @@ class EditarProductoActivity : AppCompatActivity() {
                 cantidad = nuevaCantidad,
                 categoria = nuevaCategoria,
                 codigo = codigo ?: "", // Usamos el código original recuperado del intent
-                imagen = ""
+                imagen = imagenSeleccionada?.toString() ?: imagenanterior ?: ""
             )
 
             viewModel.actualizarProducto(productoActualizado)
@@ -95,6 +123,10 @@ class EditarProductoActivity : AppCompatActivity() {
                 "Producto actualizado con éxito",
                 Toast.LENGTH_SHORT
             ).show()
+
+            val intent = Intent(this, ModuloProducto::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            startActivity(intent)
 
             finish()
         }
