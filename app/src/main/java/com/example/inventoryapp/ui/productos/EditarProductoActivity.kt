@@ -1,8 +1,11 @@
 package com.example.inventoryapp.ui.productos
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -19,6 +22,26 @@ class EditarProductoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditarProductoBinding
     private lateinit var viewModel: ProductoViewModel
 
+    private var imagenSeleccionada: Uri? = null
+
+    private val seleccionarImagen =
+        registerForActivityResult(
+            ActivityResultContracts.OpenDocument()
+        ) { uri ->
+
+            if (uri != null) {
+
+                // Guardamos el permiso para poder utilizar nuevamente esta imagen
+                contentResolver.takePersistableUriPermission(
+                    uri,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
+
+                // Guardamos la nueva imagen seleccionada
+                imagenSeleccionada = uri
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -30,7 +53,9 @@ class EditarProductoActivity : AppCompatActivity() {
 
         // Adaptar la pantalla a las barras del sistema
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            val systemBars =
+                insets.getInsets(WindowInsetsCompat.Type.systemBars())
 
             v.setPadding(
                 systemBars.left,
@@ -48,7 +73,11 @@ class EditarProductoActivity : AppCompatActivity() {
         val repository = ProductoRepository(dao)
 
         val factory = object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+
+            override fun <T : ViewModel> create(
+                modelClass: Class<T>
+            ): T {
+
                 if (modelClass.isAssignableFrom(ProductoViewModel::class.java)) {
                     return ProductoViewModel(repository) as T
                 }
@@ -57,7 +86,8 @@ class EditarProductoActivity : AppCompatActivity() {
             }
         }
 
-        viewModel = ViewModelProvider(this, factory)[ProductoViewModel::class.java]
+        viewModel =
+            ViewModelProvider(this, factory)[ProductoViewModel::class.java]
 
         // Recuperar los datos enviados desde la pantalla anterior
         val id = intent.getIntExtra("id", 0)
@@ -66,6 +96,15 @@ class EditarProductoActivity : AppCompatActivity() {
         val codigo = intent.getStringExtra("codigo") ?: ""
         val precio = intent.getDoubleExtra("precio", 0.0)
         val cantidad = intent.getIntExtra("cantidad", 0)
+        val imagenAnterior = intent.getStringExtra("imagen") ?: ""
+
+        // Botón para seleccionar una nueva imagen
+        binding.imgSubir2.setOnClickListener {
+
+            seleccionarImagen.launch(
+                arrayOf("image/*")
+            )
+        }
 
         // Mostrar los datos actuales del producto
         binding.edtNombreProducto.setText(nombre)
@@ -76,10 +115,17 @@ class EditarProductoActivity : AppCompatActivity() {
         // Botón actualizar
         binding.btnActualizar.setOnClickListener {
 
-            val nuevoNombre = binding.edtNombreProducto.text.toString().trim()
-            val nuevaCategoria = binding.edtCategoria.text.toString().trim()
-            val nuevoPrecioStr = binding.edtPrecio.text.toString().trim()
-            val nuevaCantidadStr = binding.edtCantidad.text.toString().trim()
+            val nuevoNombre =
+                binding.edtNombreProducto.text.toString().trim()
+
+            val nuevaCategoria =
+                binding.edtCategoria.text.toString().trim()
+
+            val nuevoPrecioStr =
+                binding.edtPrecio.text.toString().trim()
+
+            val nuevaCantidadStr =
+                binding.edtCantidad.text.toString().trim()
 
             // Validar campos
             if (
@@ -88,6 +134,7 @@ class EditarProductoActivity : AppCompatActivity() {
                 nuevoPrecioStr.isEmpty() ||
                 nuevaCantidadStr.isEmpty()
             ) {
+
                 Toast.makeText(
                     this,
                     "Por favor llena todos los campos",
@@ -101,6 +148,7 @@ class EditarProductoActivity : AppCompatActivity() {
             val nuevaCantidad = nuevaCantidadStr.toIntOrNull()
 
             if (nuevoPrecio == null || nuevaCantidad == null) {
+
                 Toast.makeText(
                     this,
                     "Precio o cantidad no válidos",
@@ -110,6 +158,12 @@ class EditarProductoActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            // Si se seleccionó una nueva imagen se utiliza esa.
+            // Si no, se conserva la imagen anterior.
+            val nuevaImagen =
+                imagenSeleccionada?.toString()
+                    ?: imagenAnterior
+
             val productoActualizado = Producto(
                 id = id,
                 nombre = nuevoNombre,
@@ -117,9 +171,10 @@ class EditarProductoActivity : AppCompatActivity() {
                 cantidad = nuevaCantidad,
                 categoria = nuevaCategoria,
                 codigo = codigo,
-                imagen = ""
+                imagen = nuevaImagen
             )
 
+            // Actualizar producto
             viewModel.actualizarProducto(productoActualizado)
 
             Toast.makeText(
@@ -127,6 +182,15 @@ class EditarProductoActivity : AppCompatActivity() {
                 "Producto actualizado con éxito",
                 Toast.LENGTH_SHORT
             ).show()
+
+            // Regresar al módulo de productos
+            val intent =
+                Intent(this, ModuloProducto::class.java)
+
+            intent.flags =
+                Intent.FLAG_ACTIVITY_CLEAR_TOP
+
+            startActivity(intent)
 
             finish()
         }

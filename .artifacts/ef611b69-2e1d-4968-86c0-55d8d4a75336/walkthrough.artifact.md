@@ -1,31 +1,24 @@
-# Restauración de Cambios y Corrección de Errores
+# Walkthrough: Implementación de Borrado desde Detalle de Producto
 
-Se han vuelto a implementar los cambios que se perdieron debido a cambios externos en el proyecto, y se han corregido errores de compilación adicionales que impedían el funcionamiento de la app.
+Se ha implementado la funcionalidad para eliminar un producto directamente desde su pantalla de detalle, incluyendo mensajes de confirmación y cierre automático de la pantalla tras el borrado.
 
-## Cambios Restaurados
+## Cambios Realizados
 
-### Interfaz de Usuario (XML)
+### [ProductoViewModel.kt](file:///C:/UNANA-MANAGUA/A%C3%B1o%203/Semestre%202/Programaci%C3%B3n%20movil/semana%203/app%20movil/InventoryApp/app/src/main/java/com/example/inventoryapp/viewmodel/ProductoViewModel.kt)
+- **Restauración de función**: Se añadió de nuevo la función `eliminarProducto(producto: Producto)` que permite ejecutar la eliminación en un hilo secundario (Corrutina).
 
-#### [activity_producto.xml](file:///C:/UNANA-MANAGUA/A%C3%B1o%203/Semestre%202/Programaci%C3%B3n%20movil/semana%203/app%20movil/InventoryApp/app/src/main/res/layout/activity_producto.xml)
-- **Buscador Visible**: Se aumentó la altura del `SearchView` a `50dp` y se eliminaron las capas redundantes (`FrameLayout`) que lo cubrían.
-- **Optimización de Atributos**: Se restauraron los atributos `app:queryHint` y `app:iconifiedByDefault` para asegurar la visibilidad del texto de sugerencia.
-- **Botón Flotante (FAB)**: Se reubicó correctamente en el diseño principal.
-
-## Correcciones de Compilación (Nuevas)
-
-Además de restaurar el diseño, se corrigieron errores en el código que surgieron tras el cambio externo:
-
-1.  **[ProductoAdapter.kt](file:///C:/UNANA-MANAGUA/A%C3%B1o%203/Semestre%202/Programaci%C3%B3n%20movil/semana%203/app%20movil/InventoryApp/app/src/main/java/com/example/inventoryapp/ui/productos/ProductoAdapter.kt)**:
-    - Se actualizó para usar el modelo correcto (`ProductoModel`).
-    - Se corrigieron referencias a variables inexistentes y nombres de propiedades (`cantidad` en lugar de `stock`).
-    - Se simplificó la lógica de vinculación de datos en el `onBindViewHolder`.
-
-2.  **[ModuloProducto.kt](file:///C:/UNANA-MANAGUA/A%C3%B1o%203/Semestre%202/Programaci%C3%B3n%20movil/semana%203/app%20movil/InventoryApp/app/src/main/java/com/example/inventoryapp/ui/productos/ModuloProducto.kt)**:
-    - Se corrigió la inicialización del adaptador pasando la función `onClick` necesaria, configurándola para navegar a la pantalla de edición de productos.
+### [DetalleProductoActivity.kt](file:///C:/UNANA-MANAGUA/A%C3%B1o%203/Semestre%202/Programaci%C3%B3n%20movil/semana%203/app%20movil/InventoryApp/app/src/main/java/com/example/inventoryapp/ui/productos/DetalleProductoActivity.kt)
+1.  **Configuración de Datos**: Se obtuvieron todos los datos del producto (id, nombre, precio, etc.) desde los extras del `Intent`.
+2.  **Inicialización de ViewModel**: Se configuró el acceso a la base de datos y el `ViewModel` siguiendo el patrón del proyecto.
+3.  **Evento Eliminar**: Se programó el botón `btnEliminar` con la siguiente lógica:
+    - **Paso 5.1**: Muestra un `AlertDialog` para que el usuario confirme si realmente desea borrar el producto.
+    - **Paso 5.2**: Si el usuario acepta, se construye el objeto `Producto`.
+    - **Paso 5.3**: Se llama al `ViewModel` para realizar el borrado.
+    - **Paso 5.4**: Se muestra un `Toast` informativo y se cierra la actividad con `finish()` para volver automáticamente a la lista.
 
 ## Verificación
-- **Build**: Se ejecutó `./gradlew assembleDebug` con éxito.
-- **Sync**: Sincronización de Gradle completada sin errores.
+- **Compilación**: El proyecto compila correctamente (`Build Success`).
+- **Lógica**: Se verificó que la función `eliminarProducto` esté correctamente conectada a través del repositorio hasta el DAO.
 
 > [!IMPORTANT]
-> La aplicación ahora compila correctamente y el buscador es plenamente visible y funcional. Los errores que bloqueaban el inicio de la app han sido resueltos.
+> Al eliminar el producto desde el detalle, regresarás automáticamente a la lista, la cual se actualizará sola eliminando la tarjeta correspondiente gracias al uso de `LiveData` o `Flow` en tu arquitectura.

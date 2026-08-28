@@ -84,8 +84,7 @@
                 android:layout_height="210dp"
                 android:layout_marginBottom="10dp"
                 android:contentDescription="Imagen del producto"
-                android:scaleType="fitCenter"
-                android:src="@drawable/laptop" />
+                android:scaleType="fitCenter" />
 
             <!--CONTENEDOR DEL NOMBRE Y ESTADO: Permite colocar el nombre a la izquierda y el estado del producto a la derecha. -->
             <LinearLayout
