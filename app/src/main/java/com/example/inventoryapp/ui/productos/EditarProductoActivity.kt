@@ -182,7 +182,7 @@ class EditarProductoActivity : AppCompatActivity() {
             viewModel.actualizarProducto(productoActualizado)
 
             // PUT remoto
-            val apiRepository = ProductoApiRepository(RetrofitClient.api)
+            val apiRepository = ProductoApiRepository(RetrofitClient.create(this))
             val apiViewModel = ProductoApiViewModel(apiRepository)
 
             val productoDto = ProductoDto(

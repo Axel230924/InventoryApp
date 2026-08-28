@@ -115,7 +115,7 @@ class DetalleProductoActivity : AppCompatActivity() {
                     viewModel.eliminarProducto(productoAEliminar)
 
                     //Delete remoto
-                    val apiRepository = ProductoApiRepository(RetrofitClient.api)
+                    val apiRepository = ProductoApiRepository(RetrofitClient.create(this))
                     val apiViewModel = ProductoApiViewModel(apiRepository)
                     apiViewModel.eliminarProducto(id)
 

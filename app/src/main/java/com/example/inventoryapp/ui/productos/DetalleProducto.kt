@@ -131,10 +131,13 @@ class DetalleProducto : AppCompatActivity() {
 
             viewModel.guardarProducto(
                 producto
+
             )
 
             // POST remoto
-            val apiRepository = ProductoApiRepository(RetrofitClient.api)
+            val apiRepository = ProductoApiRepository(
+                RetrofitClient.create(this)
+            )
             val apiViewModel = ProductoApiViewModel(apiRepository)
 
             val productoDto = ProductoDto(
