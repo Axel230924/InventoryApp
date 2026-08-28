@@ -1,6 +1,6 @@
 package com.example.inventoryapp
 
-import android.content.Intent // Permite navegar entre Activities.
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
@@ -8,8 +8,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import com.example.inventoryapp.data.remote.dto.LoginRequest
+import com.example.inventoryapp.data.remote.retrofit.RetrofitClient
 import com.example.inventoryapp.ui.dashboard.Dashboard
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 
+//Esta Activity corresponde a la pantalla de inicio de sesión. Su función es capturar los datos introducidos por el usuario y realizar las validaciones necesarias antes de permitir el acceso a la aplicación.
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,13 +25,17 @@ class MainActivity : AppCompatActivity() {
         // Activa el diseño de pantalla completa.
         enableEdgeToEdge()
 
-        // Carga la pantalla de inicio/login.
-        setContentView(R.layout.activity_main)
+        // Carga el diseño XML correspondiente a la pantalla de Login.
+        setContentView(R.layout.activity_login)
 
-        // Ajusta la pantalla a las barras del sistema.
+        //Ajusta el contenido de la pantalla para evitar que los componentes queden ocultos detrás de las barras del sistema.
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
 
+            // Obtiene las dimensiones de las barras del sistema.
+            val systemBars =
+                insets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            // Aplica el espacio de las barras del sistema al contenedor principal.
             v.setPadding(
                 systemBars.left,
                 systemBars.top,
@@ -32,25 +43,109 @@ class MainActivity : AppCompatActivity() {
                 systemBars.bottom
             )
 
+            // Devuelve los Insets para que el sistema continúe procesándolos.
             insets
         }
 
-        // Mantiene la aplicación en modo claro.
+        //Establece la aplicación permanentemente en modo claro.
         AppCompatDelegate.setDefaultNightMode(
             AppCompatDelegate.MODE_NIGHT_NO
         )
 
-        // Busca el botón de inicio de sesión.
-        val btnInicioS = findViewById<Button>(R.id.btniniciosesion)
+        // Obtiene el campo de usuario definido en activity_login.xml.
+        val txtUsuario =
+            findViewById<TextInputEditText>(R.id.TIEUsuario)
 
-        // Al presionar el botón, abre el Dashboard.
+        // Obtiene el campo de contraseña definido en activity_login.xml.
+        val txtContraseña =
+            findViewById<TextInputEditText>(R.id.TIEContraseña)
+
+        // Obtiene el contenedor del campo de usuario.
+        val layoutUsuario =
+            findViewById<TextInputLayout>(R.id.txtILayoutUsuario)
+
+        // Obtiene el contenedor del campo de contraseña.
+        val layoutContraseña =
+            findViewById<TextInputLayout>(R.id.txtILayoutContraseña)
+
+        // Obtiene el botón "Iniciar Sesión".
+        val btnInicioS =
+            findViewById<Button>(R.id.btniniciosesion)
+
+        // Detecta cuando el usuario presiona el botón de iniciar sesión
         btnInicioS.setOnClickListener {
-            val intent = Intent(this, Dashboard::class.java)
 
-            startActivity(intent)
+            //Obtiene el contenido escrito en el campo de usuario.
+            val usuario =
+                txtUsuario.text.toString().trim()
 
-            // Cierra la pantalla de inicio para que no se pueda regresar con el botón Atrás.
-            finish()
+            // Obtiene el contenido escrito en el campo de contraseña.
+            val contraseña =
+                txtContraseña.text.toString()
+
+            // Limpia los mensajes de error que hayan sidos mostrados en intentos anteriores
+            layoutUsuario.error = null
+            layoutContraseña.error = null
+
+            // Variable utilizada para determinar si todos los datos cumplen las validaciones locales.
+
+            var datosValidos = true
+
+            // Comprueba si el campo de usuario está vacío.
+            if (usuario.isEmpty()) {
+
+                // Muestra el mensaje de error debajo del campo.
+                layoutUsuario.error = "El usuario es obligatorio"
+
+                // Indica que existen datos incorrectos.
+                datosValidos = false
+            }
+
+            // Comprueba si el campo de contraseña está vacío.
+            if (contraseña.isEmpty()) {
+
+                // Muestra el mensaje de error debajo del campo.
+                layoutContraseña.error = "La contraseña es obligatoria"
+
+                // Indica que los datos no son validos
+                datosValidos = false
+            }
+
+            // Comprueba que la contraseña tenga como mínimo 6 caracteres.
+            if (contraseña.isNotEmpty() && contraseña.length < 6) {
+
+                // Muestra un mensaje indicando la longitud mínima.
+                layoutContraseña.error =
+                    "La contraseña debe tener al menos 6 caracteres"
+
+                // Indica que los datos no son válidos.
+                datosValidos = false
+            }
+
+            //Si alguno de los campos no cumple las validaciones, no se continúa con el proceso de autenticación
+            if (!datosValidos) {
+                return@setOnClickListener
+            }
+
+            // Login real contra la API con JWT
+            lifecycleScope.launch {
+                try {
+                    val respuesta = RetrofitClient.api.login(
+                        LoginRequest(usuario = usuario, password = contraseña)
+                    )
+
+                    // Login exitoso: el backend devolvió un token válido.
+                    val intent = Intent(this@MainActivity, Dashboard::class.java)
+                    startActivity(intent)
+                    finish()
+
+                } catch (e: Exception) {
+
+                    // Login fallido (401) o error de red
+                    layoutUsuario.error = "El usuario o la contraseña son incorrectos"
+                    layoutContraseña.error = "Verifique sus credenciales"
+                }
+            }
         }
     }
 }

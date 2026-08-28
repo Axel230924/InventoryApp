@@ -21,6 +21,10 @@ import com.inventoryapp.data.repository.ProductoRepository
 import android.net.Uri
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
+import com.example.inventoryapp.data.remote.dto.ProductoDto
+import com.example.inventoryapp.data.remote.retrofit.RetrofitClient
+import com.example.inventoryapp.data.repository.ProductoApiRepository
+import com.example.inventoryapp.viewmodel.ProductoApiViewModel
 
 class DetalleProducto : AppCompatActivity() {
     private var imagenSeleccionada: Uri? = null
@@ -129,6 +133,22 @@ class DetalleProducto : AppCompatActivity() {
                 producto
             )
 
+            // POST remoto
+            val apiRepository = ProductoApiRepository(RetrofitClient.api)
+            val apiViewModel = ProductoApiViewModel(apiRepository)
+
+            val productoDto = ProductoDto(
+                id = 0,
+                nombre = nombre,
+                precio = precio,
+                cantidad = cantidad,
+                categoria = categoria,
+                codigo = codigo,
+                imagen = imagenSeleccionada?.toString() ?: ""
+            )
+
+            apiViewModel.guardarProducto(productoDto)
+
             Toast.makeText(
                 this,
                 "Producto guardado",
@@ -140,6 +160,12 @@ class DetalleProducto : AppCompatActivity() {
             edtCategoria.setText("", false)
             edtPrecio.text.clear()
             edtCantidad.text.clear()
+
+            // Regresar al módulo de productos
+            val intent = Intent(this, ModuloProducto::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            startActivity(intent)
+            finish()
         }
     }
 }

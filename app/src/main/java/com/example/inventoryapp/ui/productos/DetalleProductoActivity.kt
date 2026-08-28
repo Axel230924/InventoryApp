@@ -1,25 +1,28 @@
 package com.example.inventoryapp.ui.productos
 
+// Importaciones necesarias
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.inventoryapp.R
-import android.widget.TextView
-import android.net.Uri
-import android.widget.ImageView
-// Importaciones necesarias
-import android.content.Intent
-import android.widget.Button
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.inventoryapp.R
 import com.inventoryapp.data.database.InventoryDatabase
+import com.inventoryapp.data.entity.Producto
 import com.inventoryapp.data.repository.ProductoRepository
 import com.inventoryapp.viewmodel.ProductoViewModel
-import com.inventoryapp.data.entity.Producto
+import com.example.inventoryapp.data.remote.retrofit.RetrofitClient
+import com.example.inventoryapp.data.repository.ProductoApiRepository
+import com.example.inventoryapp.viewmodel.ProductoApiViewModel
 
 class DetalleProductoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -110,6 +113,11 @@ class DetalleProductoActivity : AppCompatActivity() {
                     )
                     // Paso 5.3: Llamamos al ViewModel para borrarlo de la base de datos
                     viewModel.eliminarProducto(productoAEliminar)
+
+                    //Delete remoto
+                    val apiRepository = ProductoApiRepository(RetrofitClient.api)
+                    val apiViewModel = ProductoApiViewModel(apiRepository)
+                    apiViewModel.eliminarProducto(id)
 
                     // Mostramos un mensaje de éxito
                     Toast.makeText(this, "Producto eliminado correctamente", Toast.LENGTH_SHORT).show()

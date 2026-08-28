@@ -16,6 +16,10 @@ import com.inventoryapp.data.database.InventoryDatabase
 import com.inventoryapp.data.entity.Producto
 import com.inventoryapp.data.repository.ProductoRepository
 import com.inventoryapp.viewmodel.ProductoViewModel
+import com.example.inventoryapp.data.remote.dto.ProductoDto
+import com.example.inventoryapp.data.remote.retrofit.RetrofitClient
+import com.example.inventoryapp.data.repository.ProductoApiRepository
+import com.example.inventoryapp.viewmodel.ProductoApiViewModel
 
 class EditarProductoActivity : AppCompatActivity() {
 
@@ -176,6 +180,22 @@ class EditarProductoActivity : AppCompatActivity() {
 
             // Actualizar producto
             viewModel.actualizarProducto(productoActualizado)
+
+            // PUT remoto
+            val apiRepository = ProductoApiRepository(RetrofitClient.api)
+            val apiViewModel = ProductoApiViewModel(apiRepository)
+
+            val productoDto = ProductoDto(
+                id = id,
+                nombre = nuevoNombre,
+                precio = nuevoPrecio,
+                cantidad = nuevaCantidad,
+                categoria = nuevaCategoria,
+                codigo = codigo,
+                imagen = nuevaImagen
+            )
+
+            apiViewModel.actualizarProducto(id, productoDto)
 
             Toast.makeText(
                 this,

@@ -17,6 +17,11 @@ import com.inventoryapp.data.database.InventoryDatabase  // Importamos Inventory
 import com.inventoryapp.data.repository.ProductoRepository // El repository
 import com.inventoryapp.viewmodel.ProductoViewModel // El ViewModel
 import com.example.inventoryapp.ui.productos.DetalleProductoActivity
+import com.example.inventoryapp.data.remote.retrofit.RetrofitClient
+import com.example.inventoryapp.data.remote.dto.toEntity
+import com.example.inventoryapp.data.repository.ProductoApiRepository
+import com.example.inventoryapp.viewmodel.ProductoApiViewModel
+import android.util.Log
 
 class ModuloProducto : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,6 +81,15 @@ class ModuloProducto : AppCompatActivity() {
         // Permite preguntar si desde el ViewModel nos envia Productos
         viewModel.productos.observe(this) { productos ->
             adapter.submitList(productos)  // Si hay, se los pasa al adapter
+        }
+
+        //GET remoto (API -> SQL Server)
+        val apiRepository = ProductoApiRepository(RetrofitClient.api)
+        val apiViewModel = ProductoApiViewModel(apiRepository)
+
+        apiViewModel.obtenerProductos { listaDto ->
+            val listaProducto = listaDto.map { it.toEntity() }
+            adapter.submitList(listaProducto)
         }
 
         // Realizamos un evento, al hacer click en el botón agregar se nos abrirá la pantalla detalleProducto

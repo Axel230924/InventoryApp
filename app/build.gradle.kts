@@ -43,7 +43,9 @@ dependencies {
     implementation(libs.androidx.gridlayout)
     implementation(libs.androidx.recyclerview)
     implementation(libs.material)
-
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
     // Room
     val room_version = "2.8.4"
     implementation("androidx.room:room-runtime:$room_version")
