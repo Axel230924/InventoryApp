@@ -14,7 +14,10 @@ interface ApiService {
     suspend fun guardarProducto(@Body producto: ProductoDto): ProductoDto
 
     @PUT("api/Productoes/{id}")
-    suspend fun actualizarProducto(@Path("id") id: Int, @Body producto: ProductoDto): ProductoDto
+    suspend fun actualizarProducto(
+        @Path("id") id: Int,
+        @Body producto: ProductoDto
+    )
 
     @DELETE("api/Productoes/{id}")
     suspend fun eliminarProducto(@Path("id") id: Int)

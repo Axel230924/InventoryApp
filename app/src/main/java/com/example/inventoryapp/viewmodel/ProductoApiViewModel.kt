@@ -1,5 +1,6 @@
 package com.example.inventoryapp.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.inventoryapp.data.remote.dto.ProductoDto
@@ -15,26 +16,42 @@ class ProductoApiViewModel(
 
     fun obtenerProductos(onResult: (List<ProductoDto>) -> Unit) {
         viewModelScope.launch {
-            productos = repository.obtenerProductos()
-            onResult(productos)
+            try {
+                productos = repository.obtenerProductos()
+                onResult(productos)
+            } catch (e: Exception) {
+                Log.e("ProductoApiViewModel", "Error al obtener productos: ${e.message}")
+            }
         }
     }
 
     fun guardarProducto(producto: ProductoDto) {
         viewModelScope.launch {
-            repository.guardarProducto(producto)
+            try {
+                repository.guardarProducto(producto)
+            } catch (e: Exception) {
+                Log.e("ProductoApiViewModel", "Error al guardar producto: ${e.message}")
+            }
         }
     }
 
     fun actualizarProducto(id: Int, producto: ProductoDto) {
         viewModelScope.launch {
-            repository.actualizarProducto(id, producto)
+            try {
+                repository.actualizarProducto(id, producto)
+            } catch (e: Exception) {
+                Log.e("ProductoApiViewModel", "Error al actualizar producto: ${e.message}")
+            }
         }
     }
 
     fun eliminarProducto(id: Int) {
         viewModelScope.launch {
-            repository.eliminarProducto(id)
+            try {
+                repository.eliminarProducto(id)
+            } catch (e: Exception) {
+                Log.e("ProductoApiViewModel", "Error al eliminar producto: ${e.message}")
+            }
         }
     }
 }

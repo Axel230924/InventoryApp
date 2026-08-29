@@ -23,12 +23,15 @@ import com.example.inventoryapp.data.remote.dto.toEntity
 import com.example.inventoryapp.data.repository.ProductoApiRepository
 import com.example.inventoryapp.viewmodel.ProductoApiViewModel
 import com.example.inventoryapp.data.utils.NetworkUtils
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 class ModuloProducto : AppCompatActivity() {
 
     // Las guardamos como propiedades de la clase para poder
     // reutilizarlas en onResume() sin volver a crearlas
     private lateinit var apiViewModel: ProductoApiViewModel
+    private lateinit var viewModel: ProductoViewModel
     private lateinit var adapter: ProductoAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,7 +55,7 @@ class ModuloProducto : AppCompatActivity() {
                 throw IllegalArgumentException("Unknown ViewModel class")
             }
         }
-        val viewModel = ViewModelProvider(
+        viewModel = ViewModelProvider(
             this,
             factory
         )[ProductoViewModel::class.java]
@@ -111,6 +114,14 @@ class ModuloProducto : AppCompatActivity() {
             apiViewModel.obtenerProductos { listaDto ->
                 val listaProducto = listaDto.map { it.toEntity() }
                 adapter.submitList(listaProducto)
+
+                // Sincroniza: guarda una copia de cada producto en Room,
+                // para que el modo offline también refleje lo que existe en la API.
+                lifecycleScope.launch {
+                    listaProducto.forEach { producto ->
+                        viewModel.guardarProducto(producto)
+                    }
+                }
             }
         } else {
             // Modo OFFLINE: sin conexión, se avisa al usuario.
