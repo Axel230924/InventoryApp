@@ -25,6 +25,7 @@ import com.example.inventoryapp.data.remote.dto.ProductoDto
 import com.example.inventoryapp.data.remote.retrofit.RetrofitClient
 import com.example.inventoryapp.data.repository.ProductoApiRepository
 import com.example.inventoryapp.viewmodel.ProductoApiViewModel
+import com.example.inventoryapp.data.utils.NetworkUtils // NUEVO: para verificar conexión
 
 class DetalleProducto : AppCompatActivity() {
     private var imagenSeleccionada: Uri? = null
@@ -120,43 +121,57 @@ class DetalleProducto : AppCompatActivity() {
             val precio = edtPrecio.text.toString().toDouble()
             val cantidad = edtCantidad.text.toString().toInt()
 
+            // Sincronización diferida: se verifica la conexión ANTES de guardar, para decidir si el producto queda marcado como sincronizado o como pendiente.
+            val hayInternet = NetworkUtils.hayInternet(this)
+
             val producto = Producto(
                 nombre = nombre,
                 categoria = categoria,
                 codigo = codigo,
                 precio = precio,
                 cantidad = cantidad,
-                imagen = imagenSeleccionada?.toString() ?: ""
+                imagen = imagenSeleccionada?.toString() ?: "",
+
+                // Si hay internet, se marca como sincronizado (true) porque se va a intentar subir de inmediato. Si no hay internet, queda marcado como pendiente (false) para reintentar después.
+                sincronizado = hayInternet
             )
 
             viewModel.guardarProducto(
                 producto
-
             )
 
-            // POST remoto
-            val apiRepository = ProductoApiRepository(
-                RetrofitClient.create(this)
-            )
-            val apiViewModel = ProductoApiViewModel(apiRepository)
+            if (hayInternet) {
 
-            val productoDto = ProductoDto(
-                id = 0,
-                nombre = nombre,
-                precio = precio,
-                cantidad = cantidad,
-                categoria = categoria,
-                codigo = codigo,
-                imagen = imagenSeleccionada?.toString() ?: ""
-            )
+                // Solo se intenta el POST remoto si hay conexión. Si no hay, el producto ya quedó guardado localmente como pendiente, y se sincronizará automáticamente la próxima vez que ModuloProducto detecte conexión.
+                val apiRepository = ProductoApiRepository(
+                    RetrofitClient.create(this)
+                )
+                val apiViewModel = ProductoApiViewModel(apiRepository)
 
-            apiViewModel.guardarProducto(productoDto)
+                val productoDto = ProductoDto(
+                    id = 0,
+                    nombre = nombre,
+                    precio = precio,
+                    cantidad = cantidad,
+                    categoria = categoria,
+                    codigo = codigo,
+                    imagen = imagenSeleccionada?.toString() ?: ""
+                )
 
-            Toast.makeText(
-                this,
-                "Producto guardado",
-                Toast.LENGTH_LONG
-            ).show()
+                apiViewModel.guardarProducto(productoDto)
+
+                Toast.makeText(
+                    this,
+                    "Producto guardado",
+                    Toast.LENGTH_LONG
+                ).show()
+            } else {
+                Toast.makeText(
+                    this,
+                    "Sin conexión: el producto se guardó localmente y se sincronizará automáticamente cuando vuelva el Internet",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
 
             edtNombreProducto.text.clear()
             edtCodigo.text.clear()

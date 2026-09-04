@@ -23,6 +23,7 @@ import com.inventoryapp.viewmodel.ProductoViewModel
 import com.example.inventoryapp.data.remote.retrofit.RetrofitClient
 import com.example.inventoryapp.data.repository.ProductoApiRepository
 import com.example.inventoryapp.viewmodel.ProductoApiViewModel
+import com.example.inventoryapp.data.utils.NetworkUtils // NUEVO: para verificar conexión
 
 class DetalleProductoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +44,7 @@ class DetalleProductoActivity : AppCompatActivity() {
             imgProducto.setImageURI(Uri.parse(imagen))
         }
 
-        // Paso 1: Obtenemos los datos enviados desde la pantalla anterior
+        // Obtenemos los datos enviados desde la pantalla anterior
         val id = intent.getIntExtra("id", -1)
         val nombre = intent.getStringExtra("nombre") ?: ""
         val codigo = intent.getStringExtra("codigo") ?: ""
@@ -51,7 +52,7 @@ class DetalleProductoActivity : AppCompatActivity() {
         val precio = intent.getDoubleExtra("precio", 0.0)
         val cantidad = intent.getIntExtra("cantidad", 0)
 
-        // Paso 2: Vinculamos los elementos del diseño (XML) con el código
+        // Vinculamos los elementos del diseño (XML) con el código
         val txtNombreProducto = findViewById<TextView>(R.id.tvNombreProducto)
         val txtCodigo = findViewById<TextView>(R.id.tvCodigoProducto)
         val txtCategoria = findViewById<TextView>(R.id.tvCategoriaProducto)
@@ -59,7 +60,7 @@ class DetalleProductoActivity : AppCompatActivity() {
         val txtcantidad = findViewById<TextView>(R.id.tvCantidad)
         val btnEliminar = findViewById<Button>(R.id.btnEliminar)
 
-        // Paso 3: Mostramos los datos en pantalla
+        //Mostramos los datos en pantalla
         txtNombreProducto.text = nombre
         txtCodigo.text = codigo
         txtCategoria.text = categoria
@@ -80,7 +81,7 @@ class DetalleProductoActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // Paso 4: Configuramos el ViewModel para acceder a la base de datos
+        // Configuramos el ViewModel para acceder a la base de datos
         val database = InventoryDatabase.getDatabase(applicationContext)
         val dao = database.productoDao()
         val repository = ProductoRepository(dao)
@@ -94,35 +95,59 @@ class DetalleProductoActivity : AppCompatActivity() {
         }
         val viewModel = ViewModelProvider(this, factory)[ProductoViewModel::class.java]
 
-        // Paso 5: Programamos el evento click del botón Eliminar
+        // Programamos el evento click del botón Eliminar
         btnEliminar.setOnClickListener {
             // Paso 5.1: Creamos un mensaje de alerta para confirmar el borrado
             AlertDialog.Builder(this)
                 .setTitle("Eliminar producto")
                 .setMessage("¿Desea eliminar definitivamente este producto?")
                 .setPositiveButton("Sí") { _, _ ->
-                    // Paso 5.2: Si confirma, creamos el objeto producto con su ID
-                    val productoAEliminar = Producto(
-                        id = id,
-                        nombre = nombre,
-                        precio = precio,
-                        cantidad = cantidad,
-                        categoria = categoria,
-                        codigo = codigo,
-                        imagen = imagen ?: ""
-                    )
-                    // Paso 5.3: Llamamos al ViewModel para borrarlo de la base de datos
-                    viewModel.eliminarProducto(productoAEliminar)
 
-                    //Delete remoto
-                    val apiRepository = ProductoApiRepository(RetrofitClient.create(this))
-                    val apiViewModel = ProductoApiViewModel(apiRepository)
-                    apiViewModel.eliminarProducto(id)
+                    //Sincronización diferida: se verifica la conexión ANTES de decidir cómo eliminar.
+                    val hayInternet = NetworkUtils.hayInternet(this)
 
-                    // Mostramos un mensaje de éxito
-                    Toast.makeText(this, "Producto eliminado correctamente", Toast.LENGTH_SHORT).show()
+                    if (hayInternet) {
+                        //CON internet: comportamiento normal, se borra de Room y de la API de inmediato.
+                        val productoAEliminar = Producto(
+                            id = id,
+                            nombre = nombre,
+                            precio = precio,
+                            cantidad = cantidad,
+                            categoria = categoria,
+                            codigo = codigo,
+                            imagen = imagen ?: ""
+                        )
+                        viewModel.eliminarProducto(productoAEliminar)
 
-                    // Paso 5.4: Cerramos esta pantalla para volver a la lista
+                        // Delete remoto
+                        val apiRepository = ProductoApiRepository(RetrofitClient.create(this))
+                        val apiViewModel = ProductoApiViewModel(apiRepository)
+                        apiViewModel.eliminarProducto(id)
+
+                        Toast.makeText(this, "Producto eliminado correctamente", Toast.LENGTH_SHORT).show()
+
+                    } else {
+                        // SIN internet: no se borra de Room todavía. Se actualiza el mismo producto, pero marcado como "pendienteEliminar = true", para que quede oculto de la lista y se elimine de verdad (Room + API) cuando ModuloProducto detecte conexión de nuevo.
+                        val productoPendienteEliminar = Producto(
+                            id = id,
+                            nombre = nombre,
+                            precio = precio,
+                            cantidad = cantidad,
+                            categoria = categoria,
+                            codigo = codigo,
+                            imagen = imagen ?: "",
+                            pendienteEliminar = true
+                        )
+                        viewModel.actualizarProducto(productoPendienteEliminar)
+
+                        Toast.makeText(
+                            this,
+                            "Sin conexión: se eliminará automáticamente cuando vuelva el Internet",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+
+                    //Cerramos esta pantalla para volver a la lista
                     finish()
                 }
                 .setNegativeButton("No", null) // Si presiona No, no hace nada

@@ -20,6 +20,7 @@ import com.inventoryapp.viewmodel.ProductoViewModel
 import com.example.inventoryapp.ui.productos.DetalleProductoActivity
 import com.example.inventoryapp.data.remote.retrofit.RetrofitClient
 import com.example.inventoryapp.data.remote.dto.toEntity
+import com.example.inventoryapp.data.remote.dto.toDto
 import com.example.inventoryapp.data.repository.ProductoApiRepository
 import com.example.inventoryapp.viewmodel.ProductoApiViewModel
 import com.example.inventoryapp.data.utils.NetworkUtils
@@ -28,9 +29,9 @@ import kotlinx.coroutines.launch
 
 class ModuloProducto : AppCompatActivity() {
 
-    // Las guardamos como propiedades de la clase para poder
-    // reutilizarlas en onResume() sin volver a crearlas
+    // Las guardamos como propiedades de la clase para poder reutilizarlas en onResume() sin volver a crearlas
     private lateinit var apiViewModel: ProductoApiViewModel
+    private lateinit var apiRepository: ProductoApiRepository // NUEVO: necesario para sincronizarPendientes()
     private lateinit var viewModel: ProductoViewModel
     private lateinit var adapter: ProductoAdapter
 
@@ -40,7 +41,6 @@ class ModuloProducto : AppCompatActivity() {
         setContentView(R.layout.activity_producto)
 
         // Nos permite recrear y traer el flujo de la base de datos para poder utilizarlo aquí
-        // Database --> DAO --> Repository --> ViewModel
         val database = InventoryDatabase.getDatabase(applicationContext)
         val dao = database.productoDao()
         val repository = ProductoRepository(dao)
@@ -91,7 +91,7 @@ class ModuloProducto : AppCompatActivity() {
         }
 
         // GET remoto (API -> SQL Server)
-        val apiRepository = ProductoApiRepository(RetrofitClient.create(this))
+        apiRepository = ProductoApiRepository(RetrofitClient.create(this))
         apiViewModel = ProductoApiViewModel(apiRepository)
 
         // Realizamos un evento, al hacer click en el botón agregar se nos abrirá la pantalla detalleProducto
@@ -104,33 +104,62 @@ class ModuloProducto : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        // Cada vez que se vuelve a esta pantalla (después de crear, editar o eliminar un producto), se recarga la lista para reflejar el estado actual, ya sea desde la API (online) o Room (offline).
         cargarProductosRemotos()
     }
 
     private fun cargarProductosRemotos() {
         if (NetworkUtils.hayInternet(this)) {
-            // Modo ONLINE: pide los datos a la API
-            apiViewModel.obtenerProductos { listaDto ->
-                val listaProducto = listaDto.map { it.toEntity() }
-                adapter.submitList(listaProducto)
+            sincronizarPendientes {
+                apiViewModel.obtenerProductos { listaDto ->
+                    val listaProducto = listaDto.map { it.toEntity() }
+                    adapter.submitList(listaProducto)
 
-                // Sincroniza: guarda una copia de cada producto en Room,
-                // para que el modo offline también refleje lo que existe en la API.
-                lifecycleScope.launch {
-                    listaProducto.forEach { producto ->
-                        viewModel.guardarProducto(producto)
+                    lifecycleScope.launch {
+                        listaProducto.forEach { producto ->
+                            viewModel.guardarProducto(producto)
+                        }
                     }
                 }
             }
         } else {
-            // Modo OFFLINE: sin conexión, se avisa al usuario.
-            // Los datos locales (Room) ya se muestran automáticamente gracias al observer de viewModel.productos.
             Toast.makeText(
                 this,
                 "Sin conexión. Mostrando datos guardados localmente.",
                 Toast.LENGTH_SHORT
             ).show()
+        }
+    }
+
+    private fun sincronizarPendientes(onFinish: () -> Unit) {
+        lifecycleScope.launch {
+
+            val pendientesCrear = viewModel.obtenerPendientesCrear()
+            android.util.Log.d("SYNC_DEBUG", "Pendientes a crear: ${pendientesCrear.size}")
+
+            for (producto in pendientesCrear) {
+                try {
+                    apiRepository.guardarProducto(producto.toDto())
+                    viewModel.marcarComoSincronizado(producto.id)
+                    android.util.Log.d("SYNC_DEBUG", "Sincronizado con éxito: ${producto.nombre}")
+                } catch (e: Exception) {
+                    android.util.Log.e("SYNC_DEBUG", "Error al sincronizar ${producto.nombre}: ${e.message}")
+                }
+            }
+
+            val pendientesEliminar = viewModel.obtenerPendientesEliminar()
+            android.util.Log.d("SYNC_DEBUG", "Pendientes a eliminar: ${pendientesEliminar.size}")
+
+            for (producto in pendientesEliminar) {
+                try {
+                    apiRepository.eliminarProducto(producto.id)
+                    viewModel.eliminarPorId(producto.id)
+                    android.util.Log.d("SYNC_DEBUG", "Eliminado con éxito: ${producto.nombre}")
+                } catch (e: Exception) {
+                    android.util.Log.e("SYNC_DEBUG", "Error al eliminar ${producto.nombre}: ${e.message}")
+                }
+            }
+
+            onFinish()
         }
     }
 }

@@ -28,7 +28,7 @@ fun ProductoDto.toEntity(): Producto {
 // Mapper inverso: convierte un Producto de Room en un DTO para enviarlo a la API
 fun Producto.toDto(): ProductoDto {
     return ProductoDto(
-        id = id,
+        id = 0,
         nombre = nombre,
         precio = precio,
         cantidad = cantidad,

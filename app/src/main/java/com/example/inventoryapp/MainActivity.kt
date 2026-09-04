@@ -169,9 +169,14 @@ class MainActivity : AppCompatActivity() {
 
                 } catch (e: Exception) {
 
-                    // Login fallido (401) o error de red
-                    layoutUsuario.error = "El usuario o la contraseña son incorrectos"
-                    layoutContraseña.error = "Verifique sus credenciales"
+                    android.util.Log.e(
+                        "LOGIN_ERROR",
+                        "Error real durante el login",
+                        e
+                    )
+
+                    layoutUsuario.error = "Error de conexión"
+                    layoutContraseña.error = "Revise Logcat"
                 }
             }
         }

@@ -11,5 +11,7 @@ data class Producto( // creamos una clase
     val cantidad:Int, // Cantidad
     val categoria:String, // Categoria a la que pertenece
     val codigo: String,
-    val imagen:String="" // Campo imagen
+    val imagen:String="", // Campo imagen
+    val sincronizado: Boolean = true, // false = pendiente de crear o actualizar en la API
+    val pendienteEliminar: Boolean = false // true = hay que borrarlo de la API cuando vuelve la conexión
 )

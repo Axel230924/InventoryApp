@@ -26,4 +26,30 @@ class ProductoViewModel(private val repository: ProductoRepository):ViewModel(){
             repository.eliminar(producto)
         }
     }
+
+    // ---- Funciones para sincronización diferida (offline-first) ----
+
+    // Obtiene los productos creados/editados offline, aún no enviados a la API
+    suspend fun obtenerPendientesCrear(): List<Producto> {
+        return repository.obtenerPendientesCrear()
+    }
+
+    // Obtiene los productos marcados para eliminar, pendientes de confirmar en la API
+    suspend fun obtenerPendientesEliminar(): List<Producto> {
+        return repository.obtenerPendientesEliminar()
+    }
+
+    // Marca un producto como sincronizado exitosamente con la API
+    fun marcarComoSincronizado(id: Int) {
+        viewModelScope.launch {
+            repository.marcarComoSincronizado(id)
+        }
+    }
+
+    // Elimina definitivamente un producto de Room, tras confirmar el borrado en la API
+    fun eliminarPorId(id: Int) {
+        viewModelScope.launch {
+            repository.eliminarPorId(id)
+        }
+    }
 }
