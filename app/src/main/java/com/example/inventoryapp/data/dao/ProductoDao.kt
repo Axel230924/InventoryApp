@@ -1,18 +1,36 @@
 package com.inventoryapp.data.dao
+
 import androidx.lifecycle.LiveData
-import androidx.room.Dao   // Importamos la base de datos con el recurso DAO
-import androidx.room.Delete   // Importamos la consulta Delete
-import androidx.room.Insert  // Importamos la consulta Insert
-import androidx.room.Query   // Importamos la consulta Query
-import androidx.room.Update   // Importamos la consulta Update
-import com.inventoryapp.data.entity.Producto   // Importamos la entidad Producto
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
+import com.inventoryapp.data.entity.Producto
+
 @Dao
-interface ProductoDao {   // Creamos el DAO (Consultas a la base de datos)
-    @Insert suspend fun Insertar(producto: Producto)   // Función con la consulta Insertar
+interface ProductoDao {
 
-    @Update suspend fun Actualizar(producto: Producto)   // Función con la consulta Actualizar
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun Insertar(producto: Producto)
 
-    @Delete suspend fun Eliminar(producto: Producto)   // Función con la consulta Eliminar
+    @Update suspend fun Actualizar(producto: Producto)
 
-    @Query("SELECT * FROM Productos ORDER BY id DESC") fun ObtenerTodos(): LiveData<List<Producto>>   // Función listar
+    @Delete suspend fun Eliminar(producto: Producto)
+
+    @Query("SELECT * FROM Productos WHERE pendienteEliminar = 0 ORDER BY id DESC")
+    fun ObtenerTodos(): LiveData<List<Producto>>
+
+    @Query("SELECT * FROM productos WHERE sincronizado = 0")
+    suspend fun obtenerPendientesCrear(): List<Producto>
+
+    @Query("SELECT * FROM productos WHERE pendienteEliminar = 1")
+    suspend fun obtenerPendientesEliminar(): List<Producto>
+
+    @Query("UPDATE productos SET sincronizado = 1 WHERE id = :id")
+    suspend fun marcarComoSincronizado(id: Int)
+
+    @Query("DELETE FROM productos WHERE id = :id")
+    suspend fun eliminarPorId(id: Int)
 }
