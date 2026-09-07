@@ -5,7 +5,8 @@ import com.inventoryapp.data.entity.Producto
 data class ProductoDto(
     val id: Int,
     val nombre: String,
-    val precio: Double,
+    val precio:
+    Double,
     val cantidad: Int,
     val categoria: String,
     val codigo: String?,

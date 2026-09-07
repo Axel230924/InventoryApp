@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
-    private const val BASE_URL ="http://192.168.83.225:5053/"
+    private const val BASE_URL = "https://inventoryapi-a3gzfadyhqe5dfhw.centralus-01.azurewebsites.net/"
 
     fun create(context: Context): ApiService {
 
