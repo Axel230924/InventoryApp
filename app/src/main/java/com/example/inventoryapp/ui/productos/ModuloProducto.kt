@@ -124,10 +124,12 @@ class ModuloProducto : AppCompatActivity() {
 
                         listaProducto.forEach { producto ->
 
-                            viewModel.sincronizarDesdeAzure(
-                                producto
-                            )
+                            viewModel.sincronizarDesdeAzure(producto)
                         }
+
+                        viewModel.eliminarProductosQueYaNoExistenEnAzure(
+                            listaProducto
+                        )
                     }
                 }
             }

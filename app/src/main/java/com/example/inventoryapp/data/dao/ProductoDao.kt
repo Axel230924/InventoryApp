@@ -39,4 +39,7 @@ interface ProductoDao {
 
     @Query("DELETE FROM productos WHERE id = :id")
     suspend fun eliminarPorId(id: Int)
+
+    @Query("SELECT * FROM productos WHERE sincronizado = 1 AND pendienteEliminar = 0")
+    suspend fun obtenerProductosSincronizados(): List<Producto>
 }
