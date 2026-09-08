@@ -66,5 +66,22 @@ class ProductoRepository(   // Creamos una clase
             dao.Insertar(producto)
         }
     }
+
+    suspend fun eliminarProductosQueYaNoExistenEnAzure(
+        productosAzure: List<Producto>
+    ) {
+
+        val productosLocales = dao.obtenerProductosSincronizados()
+
+        val syncIdsAzure = productosAzure.map { it.syncId }.toSet()
+
+        for (productoLocal in productosLocales) {
+
+            if (productoLocal.syncId !in syncIdsAzure) {
+
+                dao.eliminarPorId(productoLocal.id)
+            }
+        }
+    }
 }
 

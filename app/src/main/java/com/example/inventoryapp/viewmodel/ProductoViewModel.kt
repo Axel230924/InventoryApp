@@ -53,9 +53,13 @@ class ProductoViewModel(private val repository: ProductoRepository):ViewModel(){
         }
     }
 
-    fun sincronizarDesdeAzure(producto: Producto) {
-        viewModelScope.launch {
-            repository.sincronizarDesdeAzure(producto)
-        }
+    suspend fun sincronizarDesdeAzure(producto: Producto) {
+        repository.sincronizarDesdeAzure(producto)
+
+    }
+    suspend fun eliminarProductosQueYaNoExistenEnAzure(
+        productosAzure: List<Producto>
+    ) {
+        repository.eliminarProductosQueYaNoExistenEnAzure(productosAzure)
     }
 }
