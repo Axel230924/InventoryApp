@@ -36,13 +36,35 @@ class ProductoRepository(   // Creamos una clase
     }
 
     // Marca un producto como sincronizado exitosamente con la API. Se llama después de que el reintento de creación/actualización remota tuvo éxito, para que ese producto deje de aparecer en la lista de pendientes.
-    suspend fun marcarComoSincronizado(id: Int) {
-        dao.marcarComoSincronizado(id)
+    suspend fun marcarComoSincronizado(syncId: String, serverId: Int) {
+        dao.marcarComoSincronizado(syncId, serverId)
     }
 
     // Elimina definitivamente un producto de la base de datos local (Room). Se llama después de confirmar que el DELETE remoto (hacia la API) se completó con éxito, cerrando el ciclo de eliminación diferida.
     suspend fun eliminarPorId(id: Int) {
         dao.eliminarPorId(id)
+    }
+
+    suspend fun sincronizarDesdeAzure(producto: Producto) {
+
+        val productoExistente =
+            dao.obtenerPorSyncId(producto.syncId)
+
+        if (productoExistente != null) {
+
+            val productoActualizado =
+                producto.copy(
+                    id = productoExistente.id,
+                    sincronizado = true,
+                    pendienteEliminar = false
+                )
+
+            dao.Actualizar(productoActualizado)
+
+        } else {
+
+            dao.Insertar(producto)
+        }
     }
 }
 

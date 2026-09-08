@@ -15,7 +15,7 @@ import com.example.inventoryapp.data.remote.retrofit.RetrofitClient
 import com.example.inventoryapp.ui.dashboard.Dashboard
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import android.content.Context
+import com.example.inventoryapp.data.session.SessionManager
 
 
 //Esta Activity corresponde a la pantalla de inicio de sesión. Su función es capturar los datos introducidos por el usuario y realizar las validaciones necesarias antes de permitir el acceso a la aplicación.
@@ -140,21 +140,9 @@ class MainActivity : AppCompatActivity() {
                     // Obtiene el token JWT enviado por la API.
                     val token = respuesta.token
 
-                    // Obtiene el almacenamiento privado de la aplicación.
-                    val sharedPreferences = getSharedPreferences(
-                        "InventoryPreferences",
-                        Context.MODE_PRIVATE
-                    )
-
-                    // Guarda el token JWT para utilizarlo en las siguientes peticiones.
-                    val editor = sharedPreferences.edit()
-
-                    editor.putString(
-                        "token",
-                        token
-                    )
-
-                    editor.apply()
+                    // Guarda el token JWT mediante SessionManager.
+                    val sessionManager = SessionManager(this@MainActivity)
+                    sessionManager.guardarToken(token)
 
                     // Comprueba en Logcat que el token fue almacenado.
                     android.util.Log.d(

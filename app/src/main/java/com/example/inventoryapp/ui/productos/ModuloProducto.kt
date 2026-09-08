@@ -74,6 +74,8 @@ class ModuloProducto : AppCompatActivity() {
         adapter = ProductoAdapter { producto ->
             val intent = Intent(this, DetalleProductoActivity::class.java)
             intent.putExtra("id", producto.id)
+            intent.putExtra("syncId", producto.syncId)
+            intent.putExtra("serverId", producto.serverId ?: 0)
             intent.putExtra("nombre", producto.nombre)
             intent.putExtra("categoria", producto.categoria)
             intent.putExtra("codigo", producto.codigo)
@@ -108,20 +110,30 @@ class ModuloProducto : AppCompatActivity() {
     }
 
     private fun cargarProductosRemotos() {
+
         if (NetworkUtils.hayInternet(this)) {
+
             sincronizarPendientes {
+
                 apiViewModel.obtenerProductos { listaDto ->
-                    val listaProducto = listaDto.map { it.toEntity() }
-                    adapter.submitList(listaProducto)
+
+                    val listaProducto =
+                        listaDto.map { it.toEntity() }
 
                     lifecycleScope.launch {
+
                         listaProducto.forEach { producto ->
-                            viewModel.guardarProducto(producto)
+
+                            viewModel.sincronizarDesdeAzure(
+                                producto
+                            )
                         }
                     }
                 }
             }
+
         } else {
+
             Toast.makeText(
                 this,
                 "Sin conexión. Mostrando datos guardados localmente.",
@@ -133,29 +145,98 @@ class ModuloProducto : AppCompatActivity() {
     private fun sincronizarPendientes(onFinish: () -> Unit) {
         lifecycleScope.launch {
 
-            val pendientesCrear = viewModel.obtenerPendientesCrear()
-            android.util.Log.d("SYNC_DEBUG", "Pendientes a crear: ${pendientesCrear.size}")
+            // PRODUCTOS PENDIENTES DE CREAR
+
+            val pendientesCrear =
+                viewModel.obtenerPendientesCrear()
+
+            android.util.Log.d(
+                "SYNC_DEBUG",
+                "Pendientes a crear: ${pendientesCrear.size}"
+            )
 
             for (producto in pendientesCrear) {
+
                 try {
-                    apiRepository.guardarProducto(producto.toDto())
-                    viewModel.marcarComoSincronizado(producto.id)
-                    android.util.Log.d("SYNC_DEBUG", "Sincronizado con éxito: ${producto.nombre}")
+
+                    val respuesta =
+                        apiRepository.guardarProducto(
+                            producto.toDto()
+                        )
+
+                    val serverId = respuesta.id
+
+                    if (serverId == null) {
+                        throw Exception(
+                            "Azure no devolvió el ID del producto."
+                        )
+                    }
+
+                    // Guardamos el ID de Azure y marcamos como sincronizado
+                    viewModel.marcarComoSincronizado(
+                        producto.syncId,
+                        serverId
+                    )
+
+                    android.util.Log.d(
+                        "SYNC_DEBUG",
+                        "Sincronizado con éxito: ${producto.nombre}"
+                    )
+
                 } catch (e: Exception) {
-                    android.util.Log.e("SYNC_DEBUG", "Error al sincronizar ${producto.nombre}: ${e.message}")
+
+                    android.util.Log.e(
+                        "SYNC_DEBUG",
+                        "Error al sincronizar ${producto.nombre}: ${e.message}"
+                    )
                 }
             }
 
-            val pendientesEliminar = viewModel.obtenerPendientesEliminar()
-            android.util.Log.d("SYNC_DEBUG", "Pendientes a eliminar: ${pendientesEliminar.size}")
+            // PRODUCTOS PENDIENTES DE ELIMINAR
+
+            val pendientesEliminar =
+                viewModel.obtenerPendientesEliminar()
+
+            android.util.Log.d(
+                "SYNC_DEBUG",
+                "Pendientes a eliminar: ${pendientesEliminar.size}"
+            )
 
             for (producto in pendientesEliminar) {
+
                 try {
-                    apiRepository.eliminarProducto(producto.id)
+
+                    val serverId = producto.serverId
+
+                    if (serverId == null) {
+                        // Nunca llegó a Azure, solamente se elimina localmente
+                        viewModel.eliminarPorId(producto.id)
+
+                        android.util.Log.d(
+                            "SYNC_DEBUG",
+                            "Eliminado solamente de Room: ${producto.nombre}"
+                        )
+
+                        continue
+                    }
+
+                    // Eliminar usando el ID de Azure
+                    apiRepository.eliminarProducto(serverId)
+
+                    // Después de confirmar el borrado remoto, eliminamos el registro local
                     viewModel.eliminarPorId(producto.id)
-                    android.util.Log.d("SYNC_DEBUG", "Eliminado con éxito: ${producto.nombre}")
+
+                    android.util.Log.d(
+                        "SYNC_DEBUG",
+                        "Eliminado con éxito: ${producto.nombre}"
+                    )
+
                 } catch (e: Exception) {
-                    android.util.Log.e("SYNC_DEBUG", "Error al eliminar ${producto.nombre}: ${e.message}")
+
+                    android.util.Log.e(
+                        "SYNC_DEBUG",
+                        "Error al eliminar ${producto.nombre}: ${e.message}"
+                    )
                 }
             }
 

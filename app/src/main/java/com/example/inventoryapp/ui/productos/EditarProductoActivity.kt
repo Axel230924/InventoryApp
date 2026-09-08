@@ -11,15 +11,15 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import com.example.inventoryapp.data.remote.dto.ProductoDto
+import com.example.inventoryapp.data.remote.retrofit.RetrofitClient
 import com.example.inventoryapp.databinding.ActivityEditarProductoBinding
 import com.inventoryapp.data.database.InventoryDatabase
 import com.inventoryapp.data.entity.Producto
 import com.inventoryapp.data.repository.ProductoRepository
 import com.inventoryapp.viewmodel.ProductoViewModel
-import com.example.inventoryapp.data.remote.dto.ProductoDto
-import com.example.inventoryapp.data.remote.retrofit.RetrofitClient
-import com.example.inventoryapp.data.repository.ProductoApiRepository
-import com.example.inventoryapp.viewmodel.ProductoApiViewModel
+import kotlinx.coroutines.launch
 
 class EditarProductoActivity : AppCompatActivity() {
 
@@ -35,13 +35,11 @@ class EditarProductoActivity : AppCompatActivity() {
 
             if (uri != null) {
 
-                // Guardamos el permiso para poder utilizar nuevamente esta imagen
                 contentResolver.takePersistableUriPermission(
                     uri,
                     Intent.FLAG_GRANT_READ_URI_PERMISSION
                 )
 
-                // Guardamos la nueva imagen seleccionada
                 imagenSeleccionada = uri
             }
         }
@@ -51,11 +49,9 @@ class EditarProductoActivity : AppCompatActivity() {
 
         enableEdgeToEdge()
 
-        // Inicializar ViewBinding
         binding = ActivityEditarProductoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Adaptar la pantalla a las barras del sistema
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
 
             val systemBars =
@@ -71,38 +67,70 @@ class EditarProductoActivity : AppCompatActivity() {
             insets
         }
 
-        // Inicializar el ViewModel
-        val database = InventoryDatabase.getDatabase(applicationContext)
+        // Inicializar Room
+        val database =
+            InventoryDatabase.getDatabase(applicationContext)
+
         val dao = database.productoDao()
-        val repository = ProductoRepository(dao)
 
-        val factory = object : ViewModelProvider.Factory {
+        val repository =
+            ProductoRepository(dao)
 
-            override fun <T : ViewModel> create(
-                modelClass: Class<T>
-            ): T {
+        val factory =
+            object : ViewModelProvider.Factory {
 
-                if (modelClass.isAssignableFrom(ProductoViewModel::class.java)) {
-                    return ProductoViewModel(repository) as T
+                override fun <T : ViewModel> create(
+                    modelClass: Class<T>
+                ): T {
+
+                    if (
+                        modelClass.isAssignableFrom(
+                            ProductoViewModel::class.java
+                        )
+                    ) {
+                        return ProductoViewModel(repository) as T
+                    }
+
+                    throw IllegalArgumentException(
+                        "Unknown ViewModel class"
+                    )
                 }
-
-                throw IllegalArgumentException("Unknown ViewModel class")
             }
-        }
 
-        viewModel =
-            ViewModelProvider(this, factory)[ProductoViewModel::class.java]
+        viewModel = ViewModelProvider(this, factory) [ProductoViewModel::class.java]
 
-        // Recuperar los datos enviados desde la pantalla anterior
-        val id = intent.getIntExtra("id", 0)
-        val nombre = intent.getStringExtra("nombre") ?: ""
-        val categoria = intent.getStringExtra("categoria") ?: ""
-        val codigo = intent.getStringExtra("codigo") ?: ""
-        val precio = intent.getDoubleExtra("precio", 0.0)
-        val cantidad = intent.getIntExtra("cantidad", 0)
-        val imagenAnterior = intent.getStringExtra("imagen") ?: ""
+        // Recuperar información del producto
+        val id =
+            intent.getIntExtra("id", 0)
 
-        // Botón para seleccionar una nueva imagen
+        val syncId =
+            intent.getStringExtra("syncId") ?: ""
+
+        val nombre =
+            intent.getStringExtra("nombre") ?: ""
+
+        val serverId =
+            intent.getIntExtra("serverId", 0)
+        android.util.Log.d(
+            "EDITAR_DEBUG",
+            "id=$id | syncId='$syncId' | serverId=$serverId | nombre=$nombre")
+
+        val categoria =
+            intent.getStringExtra("categoria") ?: ""
+
+        val codigo =
+            intent.getStringExtra("codigo") ?: ""
+
+        val precio =
+            intent.getDoubleExtra("precio", 0.0)
+
+        val cantidad =
+            intent.getIntExtra("cantidad", 0)
+
+        val imagenAnterior =
+            intent.getStringExtra("imagen") ?: ""
+
+        // Seleccionar imagen
         binding.imgSubir2.setOnClickListener {
 
             seleccionarImagen.launch(
@@ -110,28 +138,36 @@ class EditarProductoActivity : AppCompatActivity() {
             )
         }
 
-        // Mostrar los datos actuales del producto
+        // Mostrar datos actuales
         binding.edtNombreProducto.setText(nombre)
         binding.edtCategoria.setText(categoria)
         binding.edtPrecio.setText(precio.toString())
         binding.edtCantidad.setText(cantidad.toString())
 
-        // Botón actualizar
+        // Actualizar
         binding.btnActualizar.setOnClickListener {
 
             val nuevoNombre =
-                binding.edtNombreProducto.text.toString().trim()
+                binding.edtNombreProducto.text
+                    .toString()
+                    .trim()
 
             val nuevaCategoria =
-                binding.edtCategoria.text.toString().trim()
+                binding.edtCategoria.text
+                    .toString()
+                    .trim()
 
             val nuevoPrecioStr =
-                binding.edtPrecio.text.toString().trim()
+                binding.edtPrecio.text
+                    .toString()
+                    .trim()
 
             val nuevaCantidadStr =
-                binding.edtCantidad.text.toString().trim()
+                binding.edtCantidad.text
+                    .toString()
+                    .trim()
 
-            // Validar campos
+            // Validación
             if (
                 nuevoNombre.isEmpty() ||
                 nuevaCategoria.isEmpty() ||
@@ -148,10 +184,16 @@ class EditarProductoActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val nuevoPrecio = nuevoPrecioStr.toDoubleOrNull()
-            val nuevaCantidad = nuevaCantidadStr.toIntOrNull()
+            val nuevoPrecio =
+                nuevoPrecioStr.toDoubleOrNull()
 
-            if (nuevoPrecio == null || nuevaCantidad == null) {
+            val nuevaCantidad =
+                nuevaCantidadStr.toIntOrNull()
+
+            if (
+                nuevoPrecio == null ||
+                nuevaCantidad == null
+            ) {
 
                 Toast.makeText(
                     this,
@@ -162,57 +204,121 @@ class EditarProductoActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Si se seleccionó una nueva imagen se utiliza esa.
-            // Si no, se conserva la imagen anterior.
+            // Conservar imagen si no se seleccionó otra
             val nuevaImagen =
                 imagenSeleccionada?.toString()
                     ?: imagenAnterior
 
-            val productoActualizado = Producto(
-                id = id,
-                nombre = nuevoNombre,
-                precio = nuevoPrecio,
-                cantidad = nuevaCantidad,
-                categoria = nuevaCategoria,
-                codigo = codigo,
-                imagen = nuevaImagen
+            // Crear producto actualizado para Room
+            val productoActualizado =
+                Producto(
+                    id = id,
+                    syncId = syncId,
+                    serverId =
+                        if (serverId == 0) null
+                        else serverId,
+                    nombre = nuevoNombre,
+                    precio = nuevoPrecio,
+                    cantidad = nuevaCantidad,
+                    categoria = nuevaCategoria,
+                    codigo = codigo,
+                    imagen = nuevaImagen,
+                    sincronizado = false
+                )
+
+            // Primero actualizamos localmente
+            viewModel.actualizarProducto(
+                productoActualizado
             )
 
-            // Actualizar producto
-            viewModel.actualizarProducto(productoActualizado)
+            // Si el producto ya existe en Azure,
+            // actualizamos mediante PUT.
+            if (serverId != 0) {
 
-            // PUT remoto
-            val apiRepository = ProductoApiRepository(RetrofitClient.create(this))
-            val apiViewModel = ProductoApiViewModel(apiRepository)
+                lifecycleScope.launch {
 
-            val productoDto = ProductoDto(
-                id = id,
-                nombre = nuevoNombre,
-                precio = nuevoPrecio,
-                cantidad = nuevaCantidad,
-                categoria = nuevaCategoria,
-                codigo = codigo,
-                imagen = nuevaImagen
-            )
+                    try {
 
-            apiViewModel.actualizarProducto(id, productoDto)
+                        val api =
+                            RetrofitClient.create(
+                                this@EditarProductoActivity
+                            )
 
-            Toast.makeText(
-                this,
-                "Producto actualizado con éxito",
-                Toast.LENGTH_SHORT
-            ).show()
+                        val productoDto =
+                            ProductoDto(
+                                id = serverId,
+                                syncId = syncId,
+                                nombre = nuevoNombre,
+                                precio = nuevoPrecio,
+                                cantidad = nuevaCantidad,
+                                categoria = nuevaCategoria,
+                                codigo = codigo,
+                                imagen = nuevaImagen
+                            )
 
-            // Regresar al módulo de productos
-            val intent =
-                Intent(this, ModuloProducto::class.java)
+                        // Esperamos realmente la respuesta de Azure
+                        api.actualizarProducto(
+                            serverId,
+                            productoDto
+                        )
 
-            intent.flags =
-                Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        // Azure confirmó la actualización.
+                        // Ahora marcamos Room como sincronizado.
+                        viewModel.marcarComoSincronizado(
+                            syncId,
+                            serverId
+                        )
 
-            startActivity(intent)
+                        Toast.makeText(
+                            this@EditarProductoActivity,
+                            "Producto actualizado correctamente",
+                            Toast.LENGTH_SHORT
+                        ).show()
 
-            finish()
+                        regresarAProductos()
+
+                    } catch (e: Exception) {
+
+                        // Si falla Azure, el producto queda
+                        // como pendiente de sincronización.
+                        Toast.makeText(
+                            this@EditarProductoActivity,
+                            "Actualizado localmente. Se sincronizará cuando haya conexión.",
+                            Toast.LENGTH_LONG
+                        ).show()
+
+                        regresarAProductos()
+                    }
+                }
+
+            } else {
+
+                // Producto que todavía no tiene ID de Azure.
+                // Se queda pendiente para sincronización.
+                Toast.makeText(
+                    this,
+                    "Producto actualizado localmente. Se sincronizará después.",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                regresarAProductos()
+            }
         }
+    }
+
+    private fun regresarAProductos() {
+
+        val intent =
+            Intent(
+                this,
+                ModuloProducto::class.java
+            )
+
+        intent.flags =
+            Intent.FLAG_ACTIVITY_CLEAR_TOP
+
+        startActivity(intent)
+
+        finish()
     }
 }

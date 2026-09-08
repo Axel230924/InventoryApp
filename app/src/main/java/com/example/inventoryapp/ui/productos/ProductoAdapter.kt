@@ -36,12 +36,29 @@ class ProductoAdapter(
             binding.txtCantidad.text =
                 "Cantidad: ${producto.cantidad}"
 
+            // Limpiar primero la imagen anterior
+            binding.imgProducto.setImageURI(null)
+
             // Mostrar imagen si existe
             if (producto.imagen.isNotEmpty()) {
 
-                binding.imgProducto.setImageURI(
-                    Uri.parse(producto.imagen)
-                )
+                try {
+
+                    binding.imgProducto.setImageURI(
+                        Uri.parse(producto.imagen)
+                    )
+
+                } catch (e: SecurityException) {
+
+                    // La URI ya no tiene permisos de acceso.
+                    // Se evita que la aplicación se cierre.
+                    binding.imgProducto.setImageURI(null)
+
+                } catch (e: Exception) {
+
+                    // Evita que una URI inválida cierre la aplicación.
+                    binding.imgProducto.setImageURI(null)
+                }
             }
 
             // Detectar click sobre el producto
@@ -104,5 +121,4 @@ class ProductoAdapter(
             return oldItem == newItem
         }
     }
-
 }

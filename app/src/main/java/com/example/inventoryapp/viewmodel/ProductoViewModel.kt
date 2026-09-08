@@ -40,9 +40,9 @@ class ProductoViewModel(private val repository: ProductoRepository):ViewModel(){
     }
 
     // Marca un producto como sincronizado exitosamente con la API
-    fun marcarComoSincronizado(id: Int) {
+    fun marcarComoSincronizado(syncId: String, serverId: Int) {
         viewModelScope.launch {
-            repository.marcarComoSincronizado(id)
+            repository.marcarComoSincronizado(syncId, serverId)
         }
     }
 
@@ -50,6 +50,12 @@ class ProductoViewModel(private val repository: ProductoRepository):ViewModel(){
     fun eliminarPorId(id: Int) {
         viewModelScope.launch {
             repository.eliminarPorId(id)
+        }
+    }
+
+    fun sincronizarDesdeAzure(producto: Producto) {
+        viewModelScope.launch {
+            repository.sincronizarDesdeAzure(producto)
         }
     }
 }
