@@ -20,37 +20,68 @@ class ProductoApiViewModel(
                 productos = repository.obtenerProductos()
                 onResult(productos)
             } catch (e: Exception) {
-                Log.e("ProductoApiViewModel", "Error al obtener productos: ${e.message}")
+                Log.e(
+                    "ProductoApiViewModel",
+                    "Error al obtener productos: ${e.message}"
+                )
             }
         }
     }
 
-    fun guardarProducto(producto: ProductoDto) {
+    fun guardarProducto(
+        producto: ProductoDto,
+        onResult: (ProductoDto?) -> Unit
+    ) {
         viewModelScope.launch {
             try {
-                repository.guardarProducto(producto)
+                val respuesta = repository.guardarProducto(producto)
+                onResult(respuesta)
             } catch (e: Exception) {
-                Log.e("ProductoApiViewModel", "Error al guardar producto: ${e.message}")
+                Log.e(
+                    "ProductoApiViewModel",
+                    "Error al guardar producto: ${e.message}"
+                )
+
+                onResult(null)
             }
         }
     }
 
-    fun actualizarProducto(id: Int, producto: ProductoDto) {
+    fun actualizarProducto(
+        id: Int,
+        producto: ProductoDto,
+        onResult: (Boolean) -> Unit = {}
+    ) {
         viewModelScope.launch {
             try {
                 repository.actualizarProducto(id, producto)
+                onResult(true)
             } catch (e: Exception) {
-                Log.e("ProductoApiViewModel", "Error al actualizar producto: ${e.message}")
+                Log.e(
+                    "ProductoApiViewModel",
+                    "Error al actualizar producto: ${e.message}"
+                )
+
+                onResult(false)
             }
         }
     }
 
-    fun eliminarProducto(id: Int) {
+    fun eliminarProducto(
+        id: Int,
+        onResult: (Boolean) -> Unit = {}
+    ) {
         viewModelScope.launch {
             try {
                 repository.eliminarProducto(id)
+                onResult(true)
             } catch (e: Exception) {
-                Log.e("ProductoApiViewModel", "Error al eliminar producto: ${e.message}")
+                Log.e(
+                    "ProductoApiViewModel",
+                    "Error al eliminar producto: ${e.message}"
+                )
+
+                onResult(false)
             }
         }
     }

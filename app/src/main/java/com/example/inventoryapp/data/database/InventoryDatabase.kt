@@ -10,7 +10,7 @@ import com.inventoryapp.data.entity.Producto
 
 @Database(
     entities = [Producto::class],
-    version = 2
+    version = 3
 )
 abstract class InventoryDatabase :
     RoomDatabase() {
@@ -34,6 +34,25 @@ abstract class InventoryDatabase :
             }
         }
 
+        val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+
+                db.execSQL(
+                    "ALTER TABLE productos ADD COLUMN syncId TEXT NOT NULL DEFAULT ''"
+                )
+
+                db.execSQL(
+                    "ALTER TABLE productos ADD COLUMN serverId INTEGER"
+                )
+            }
+        }
+
+        val MIGRATION_3_4 = object : Migration(3, 4) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("DELETE FROM productos")
+            }
+        }
+
         fun getDatabase(
             context: Context
         ): InventoryDatabase {
@@ -44,7 +63,7 @@ abstract class InventoryDatabase :
                         InventoryDatabase::class.java,
                         "inventory_db"
                     )
-                        .addMigrations(MIGRATION_1_2)
+                        .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
                         .build()
                 INSTANCE = instance
                 instance
