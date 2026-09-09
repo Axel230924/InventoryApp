@@ -6,4 +6,8 @@
     <color name="dark_navy_bg">#1E1E1E</color>
     <color name="blue_accent">#5005FF</color>
     <color name="gray_text">#757575</color>
+
+    <color name="green_let">#10B981</color>
+    <color name="red_let">#EF4444</color>
+
 </resources>

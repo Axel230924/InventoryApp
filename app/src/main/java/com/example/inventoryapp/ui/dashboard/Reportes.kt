@@ -7,6 +7,9 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.inventoryapp.R
+import android.content.Intent
+import com.google.android.material.card.MaterialCardView
+import com.example.inventoryapp.activity_motorep_reportes
 
 class Reportes : AppCompatActivity() {
 
@@ -23,5 +26,15 @@ class Reportes : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+
+        val cvMotorepDashboard = findViewById<MaterialCardView>(R.id.CardViewMotorepDashboard)
+        cvMotorepDashboard.setOnClickListener(){
+            val intent = Intent(this, activity_motorep_reportes::class.java)
+            startActivity(intent)
+        }
+
     }
+
+
 }
