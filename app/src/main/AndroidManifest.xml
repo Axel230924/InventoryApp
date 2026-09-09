@@ -14,9 +14,8 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.InventoryApp">
-
+        android:theme="@style/Theme.InventoryApp"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -57,6 +56,10 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.productos.EditarProductoActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activity_motorep_reportes"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
     </application>
