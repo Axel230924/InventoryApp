@@ -1,7 +1,7 @@
 package com.example.inventoryapp
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
@@ -12,11 +12,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
-import android.content.Intent
-import com.example.inventoryapp.indicadores_motorep_activity
 
-class activity_motorep_reportes : AppCompatActivity() {
-
+class indicadores_motorep_activity : AppCompatActivity() {
 
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navViews: NavigationView
@@ -24,7 +21,7 @@ class activity_motorep_reportes : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_motorep_reportes)
+        setContentView(R.layout.activity_indicadores_motorep)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.DrawerLayout)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -75,7 +72,7 @@ class activity_motorep_reportes : AppCompatActivity() {
         // Cerrar sesión
         //val btnCerrarSesion = findViewById<Button>(R.id.btncerrars)
         //btnCerrarSesion.setOnClickListener {
-       //     cerrarSesion()
+        //     cerrarSesion()
         //}
 
         val btnIndicadores = findViewById<LinearLayout>(R.id.LinearLayoutIndicadores)
@@ -94,8 +91,6 @@ class activity_motorep_reportes : AppCompatActivity() {
             val intent = Intent(this, incidencias_motorep_activity::class.java)
             startActivity(intent)
         }
-
-
-
     }
+
 }
