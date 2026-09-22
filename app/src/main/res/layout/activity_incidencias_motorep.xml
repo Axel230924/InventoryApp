@@ -378,11 +378,6 @@
                             android:orientation="horizontal"
                             android:padding="16dp">
 
-                            <ImageView
-                                android:layout_width="28dp"
-                                android:layout_height="28dp"
-                                app:tint="@color/blue_accent" /><!--incluir aqui la imagen de cada reporte-->
-
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -697,7 +692,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:text="Configuración"
+                    android:text="Salir"
                     android:textColor="@color/red_let"
                     android:textSize="15sp"
                     android:textStyle="bold" />
