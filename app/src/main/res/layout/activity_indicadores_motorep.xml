@@ -36,7 +36,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Inicio"
+                android:text="Indicadores"
                 android:textAlignment="center"
                 android:textColor="@color/green_let"
                 android:textSize="20sp"
@@ -117,11 +117,6 @@
                                 android:orientation="horizontal"
                                 android:padding="16dp">
 
-                                <ImageView
-                                    android:layout_width="40dp"
-                                    android:layout_height="40dp"
-                                    app:srcCompat="@drawable/empresarial_icon"/>
-
                                 <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
@@ -171,10 +166,6 @@
                                 android:orientation="horizontal"
                                 android:padding="16dp">
 
-                                <ImageView
-                                    android:layout_width="28dp"
-                                    android:layout_height="28dp"
-                                    app:tint="@color/blue_accent" /> <!--incluir aqui la imagen de cada reporte-->
 
                                 <LinearLayout
                                     android:layout_width="0dp"
@@ -222,11 +213,6 @@
                                 android:gravity="center_vertical"
                                 android:orientation="horizontal"
                                 android:padding="16dp">
-
-                                <ImageView
-                                    android:layout_width="28dp"
-                                    android:layout_height="28dp"
-                                    app:tint="@color/blue_accent" /><!--incluir aqui la imagen de cada reporte-->
 
                                 <LinearLayout
                                     android:layout_width="0dp"
@@ -284,10 +270,6 @@
                                 android:orientation="horizontal"
                                 android:padding="16dp">
 
-                                <ImageView
-                                    android:layout_width="28dp"
-                                    android:layout_height="28dp"
-                                    app:tint="@color/blue_accent" /><!--incluir aqui la imagen de cada reporte-->
 
                                 <LinearLayout
                                     android:layout_width="0dp"
@@ -337,10 +319,6 @@
                                 android:orientation="horizontal"
                                 android:padding="16dp">
 
-                                <ImageView
-                                    android:layout_width="28dp"
-                                    android:layout_height="28dp"
-                                    app:tint="@color/blue_accent" /><!--incluir aqui la imagen de cada reporte-->
 
                                 <LinearLayout
                                     android:layout_width="0dp"
@@ -390,10 +368,6 @@
                                 android:orientation="horizontal"
                                 android:padding="16dp">
 
-                                <ImageView
-                                    android:layout_width="28dp"
-                                    android:layout_height="28dp"
-                                    app:tint="@color/blue_accent" /><!--incluir aqui la imagen de cada reporte-->
 
                                 <LinearLayout
                                     android:layout_width="0dp"
@@ -420,8 +394,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="Valoración promedio de la atencion al cliente"
-                                        android:textSize="15sp"
-                                        android:textStyle="bold" />
+                                        android:textSize="15sp"/>
 
                                 </LinearLayout>
 
@@ -729,7 +702,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:text="Configuración"
+                    android:text="Salir"
                     android:textColor="@color/red_let"
                     android:textSize="15sp"
                     android:textStyle="bold" />

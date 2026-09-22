@@ -94,6 +94,17 @@ class activity_motorep_reportes : AppCompatActivity() {
             val intent = Intent(this, incidencias_motorep_activity::class.java)
             startActivity(intent)
         }
+        val btnInicio = findViewById<LinearLayout>(R.id.LinearLayoutDashboardInicio)
+        btnInicio.setOnClickListener {
+            val intent = Intent(this, activity_motorep_reportes::class.java)
+            startActivity(intent)
+        }
+        val btnSalir = findViewById<LinearLayout>(R.id.LinearLayoutCerrarSesion)
+        btnSalir.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
 
 
 
